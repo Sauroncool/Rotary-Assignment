@@ -3,13 +3,13 @@ import numpy as np
 # Placeholder Values
 a = 1.5
 V = 15
-omega = 10
+omega = 400*2*np.pi/60
 R = 10
 R_root = 1.5
-theta = 7
-sigma = 6
+theta = 5*np.pi/180
+sigma = 0.1
 rho = 1.14
-c = 2
+c = 0.5
 b = 3
 phi = np.pi / 6
 Cl = 1.2
@@ -39,6 +39,12 @@ def U_P(r):
 
 
 step = 0.01
-Thrust = b * sum(0.5 * rho * (U_T(r) ** 2 + U_P(r) ** 2) * c * (Cl * np.cos(phi) - Cd * np.sin(phi)) for r in
+thrust = b * sum(0.5 * rho * (U_T(r) ** 2 + U_P(r) ** 2) * c * (Cl * np.cos(phi) - Cd * np.sin(phi)) for r in
                  np.arange(R_root, R, step))
-print(Thrust)
+
+torque = b * sum(r * 0.5 * rho * (U_T(r) ** 2 + U_P(r) ** 2) * c * (Cd * np.cos(phi) + Cl * np.sin(phi)) for r in
+                 np.arange(R_root, R, step))
+
+power = omega * torque
+
+print(power)

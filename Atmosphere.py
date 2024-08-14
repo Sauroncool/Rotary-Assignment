@@ -2,6 +2,7 @@ import math
 class Atmosphere:
     def __init__(self, altitude: float=0.0):
         self.altitude=altitude
+        #Taking standard ISA conditions
         self.temperature=288.15
         self.pressure=101325
         self.density=1.225

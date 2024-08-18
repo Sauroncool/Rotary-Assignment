@@ -2,6 +2,7 @@ import numpy as np
 from Atmosphere import Atmosphere
 
 atmos = Atmosphere()
+rho = atmos.density
 
 # Placeholder Values
 a = 1.5
@@ -11,7 +12,6 @@ R = 10
 R_root = 1.5
 theta = 5 * np.pi / 180
 sigma = 0.1
-rho = atmos.density
 c = 0.5
 b = 3
 phi = np.pi / 6
@@ -22,6 +22,7 @@ Cd = 0.4
 lamda_c = V / (omega * R)
 
 
+# From here we will calculate and iterate lamda
 def F(r, lamda_val):
     f = (b / 2) * ((1 - r / R) / lamda_val)
     return (2 / np.pi) * np.arccos(np.exp(-f))
@@ -35,13 +36,12 @@ def lamda_func(r, F_val):
 
 # List to store lamda_val for each r
 lamda_values = []
-F_values = []
-step = 0.1
 
+step = 0.1
 r_values = np.arange(R_root, R, step)  # Generate the r values
-# Iterating over r using np.arange for non-integer steps
+
 for r in r_values:
-    def solve_interdependent(r, tol=1e-6, max_iter=100):
+    def solve_interdependent(r, tol=1e-6, max_iter=100):  # Using it to solve interdependent lamda_func and F functions.
         lamda_val = lamda_c  # Initial guess for lamda
         for i in range(max_iter):
             F_val = F(r, lamda_val)
@@ -58,12 +58,15 @@ for r in r_values:
     # Call the function for each r and store the result
     F_val, lamda_val = solve_interdependent(r)
     lamda_values.append((r, lamda_val))
-    F_values.append(F_val)
 
+
+# As we have now have lamda value for each descrete r we will make a function out of this
 def lamda(r):
     for r_val, lamda_val in lamda_values:
         if r_val == r:
             return lamda_val
+
+
 def v(r):
     v = lamda(r) * omega * R - V
     return v
@@ -75,6 +78,7 @@ def U_T(r):
 
 def U_P(r):
     return V + v(r)
+
 
 thrust = b * sum(0.5 * rho * (U_T(r) ** 2 + U_P(r) ** 2) * c * (Cl * np.cos(phi) - Cd * np.sin(phi)) for r in
                  r_values)

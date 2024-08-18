@@ -3,10 +3,10 @@ import numpy as np
 # Placeholder Values
 a = 1.5
 V = 15
-omega = 400*2*np.pi/60
+omega = 400 * 2 * np.pi / 60
 R = 10
 R_root = 1.5
-theta = 5*np.pi/180
+theta = 5 * np.pi / 180
 sigma = 0.1
 rho = 1.14
 c = 0.5
@@ -19,12 +19,48 @@ Cd = 0.4
 lamda_c = V / (omega * R)
 
 
+def F(r, lamda_val):
+    f = (b / 2) * ((1 - r / R) / lamda_val)
+    return (2 / np.pi) * np.arccos(np.exp(-f))
+
+
+def lamda_func(r, F_val):
+    lamda_val = np.sqrt(((sigma * a / (16 * F_val)) - lamda_c / 2) ** 2 + sigma * a * theta * r / (8 * F_val * R)) - (
+            sigma * a / (16 * F_val) - lamda_c / 2)
+    return lamda_val
+
+
+# List to store lamda_val for each r
+lamda_values = []
+F_values = []
+step = 0.1
+
+r_values = np.arange(R_root, R, step)  # Generate the r values
+# Iterating over r using np.arange for non-integer steps
+for r in r_values:
+    def solve_interdependent(r, tol=1e-6, max_iter=100):
+        lamda_val = lamda_c  # Initial guess for lamda
+        for i in range(max_iter):
+            F_val = F(r, lamda_val)
+            new_lamda_val = lamda_func(r, F_val)
+
+            if np.abs(new_lamda_val - lamda_val) < tol:
+                break  # Convergence reached
+
+            lamda_val = new_lamda_val
+
+        return F_val, lamda_val
+
+
+    # Call the function for each r and store the result
+    F_val, lamda_val = solve_interdependent(r)
+    lamda_values.append((r, lamda_val))
+    F_values.append(F_val)
+
 def lamda(r):
-    lamda = np.sqrt((sigma * a / 16 - lamda_c / 2) ** 2 + sigma * a * theta * r / (8 * R)) - (
-            sigma * a / 16 - lamda_c / 2)
-    return lamda
-
-
+    for r_val, lamda_val in lamda_values:
+        if r_val == r:
+            return lamda_val
 def v(r):
     v = lamda(r) * omega * R - V
     return v
@@ -37,13 +73,11 @@ def U_T(r):
 def U_P(r):
     return V + v(r)
 
-
-step = 0.01
 thrust = b * sum(0.5 * rho * (U_T(r) ** 2 + U_P(r) ** 2) * c * (Cl * np.cos(phi) - Cd * np.sin(phi)) for r in
-                 np.arange(R_root, R, step))
+                 r_values)
 
 torque = b * sum(r * 0.5 * rho * (U_T(r) ** 2 + U_P(r) ** 2) * c * (Cd * np.cos(phi) + Cl * np.sin(phi)) for r in
-                 np.arange(R_root, R, step))
+                 r_values)
 
 power = omega * torque
 

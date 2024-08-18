@@ -89,6 +89,10 @@ def Cyclic_Integrator(self):
 
     return Thrust, Torque, Power
 
-def Coefficient_Finder(self):
+def BEMT_Coefficient_Calculator(self, Thrust, Torque, Power, A):
+        Ct = Thrust/(self.density*A*(self.omega*self.R)**2)
+        Cq = Torque/(self.density*A*self.R*(self.omega*self.R)**2)
+        Cp = Power/(self.density*A*(self.omega*self.R)**3)
+        return Ct, Cq, Cp
     
 

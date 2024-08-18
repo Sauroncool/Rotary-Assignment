@@ -38,10 +38,11 @@ def lamda_func(r, F_val):
 lamda_values = []
 
 step = 0.1
-r_values = np.arange(R_root, R, step)  # Generate the r values
+r_values = np.arange(R_root, R, step)  # Generate the descrete point along the blade for which we will compute all
+# the values and then finally integrate them
 
 for r in r_values:
-    def solve_interdependent(r, tol=1e-6, max_iter=100):  # Using it to solve interdependent lamda_func and F functions.
+    def solve_interdependent(r, tol=1e-8, max_iter=100):  # Using it to solve interdependent lamda_func and F functions.
         lamda_val = lamda_c  # Initial guess for lamda
         for i in range(max_iter):
             F_val = F(r, lamda_val)
@@ -57,7 +58,7 @@ for r in r_values:
 
     # Call the function for each r and store the result
     F_val, lamda_val = solve_interdependent(r)
-    lamda_values.append((r, lamda_val))
+    lamda_values.append((r, lamda_val)) # storing lamda_val for corresponding r
 
 
 # As we have now have lamda value for each descrete r we will make a function out of this

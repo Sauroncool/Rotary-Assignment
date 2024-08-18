@@ -1,4 +1,7 @@
 import numpy as np
+from Atmosphere import Atmosphere
+
+atmos = Atmosphere()
 
 # Placeholder Values
 a = 1.5
@@ -8,7 +11,7 @@ R = 10
 R_root = 1.5
 theta = 5 * np.pi / 180
 sigma = 0.1
-rho = 1.14
+rho = atmos.density
 c = 0.5
 b = 3
 phi = np.pi / 6

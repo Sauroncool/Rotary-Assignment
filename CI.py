@@ -72,20 +72,23 @@ def Ut(self, Rrc):
 def Up(self, Rrc):
     return self.V + self.v(Rrc)
 
-def integrate_forces_and_moments(self):
+def Cyclic_Integrator(self):
     self.calculate_lamda_values()
 
-    thrust = self.blade_frequency * sum(0.5 * self.density * (self.Ut(r) ** 2 + self.Up(r) ** 2) * self.chord *
+    Thrust = self.blade_frequency * sum(0.5 * self.density * (self.Ut(r) ** 2 + self.Up(r) ** 2) * self.chord *
                               (self.Airfoil.Cl * np.cos(self.Airfoil.phi) - 
                                self.Airfoil.Cd * np.sin(self.Airfoil.phi))
                               for Rrc in self.r_values)
 
-    torque = self.b * sum(r * 0.5 * self.rho * (self.Ut(r) ** 2 + self.Up(r) ** 2) * self.chord *
+    Torque = self.b * sum(r * 0.5 * self.rho * (self.Ut(r) ** 2 + self.Up(r) ** 2) * self.chord *
                               (self.Airfoil.Cd * np.cos(self.Airfoil.phi) + 
                                self.Airfoil.Cl * np.sin(self.Airfoil.phi))
                               for Rrc in self.r_values)
 
-    power = self.omega * torque
+    Power = self.omega * torque
 
-    return thrust, torque, power
+    return Thrust, Torque, Power
+
+def Coefficient_Finder(self):
+    
 

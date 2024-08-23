@@ -4,10 +4,11 @@ from Airfoil import Airfoil
 from Atmosphere import Atmosphere
 from Inflow import Inflow
 import math
+import matplotlib.pyplot as plt
 
 class Instantaneous_Integrator:
     # integrates instantaneous forces and moments on individual blades
-    def __init__(self, Blade: Blade, blade_frequency, R, Rrc, Inflow: Inflow, omega, Airfoil: Airfoil, Atmosphere: density):
+    def __init__(self, Blade: theta, Blade, blade_frequency, R, Rrc, Inflow: Inflow, omega, Airfoil: Airfoil, Atmosphere: density):
         self.Blade=Blade
         self.Inflow=Inflow
         self.Airfoil=Airfoil
@@ -57,3 +58,14 @@ class Instantaneous_Integrator:
         Cq = Torque/(self.density*A*self.R*(self.omega*self.R)**2)
         Cp = Power/(self.density*A*(self.omega*self.R)**3)
         return Ct, Cq, Cp
+
+    def II_plots(self, Ct, Cq, Cp, theta):
+        plt.plot(theta, Ct, label = "Ct variation")
+        plt.plot(theta, Cq, label = "Cq variation")
+        plt.plot(theta, Cp, label = "Cp variation")
+        plt.xlabel("Theta (Degrees)")
+        plt.ylabel("Coefficient(s)")
+        plt.title("Theta vs Cp/Ct/Cq")
+        plt.legend()
+        plt.grid(True)
+        plt.show()

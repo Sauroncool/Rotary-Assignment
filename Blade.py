@@ -24,3 +24,4 @@ TR_omega        = user_inputs(tail_omega)  # tail rotor rotation rate, in rpm
 TR_root_cutout  = user_inputs(tail_root_cutout) # tail rotor root cutout, in metres
 TR_taper        = user_inputs(tail_taper)    # tail rotor taper, defined as taper = (chord_tip - chord_root) / (R_tip - R_root)
 TR_twist        = user_inputs(tail_twist)    # tail rotor twist, defined as twist = (theta_tip - theta_root) / (R_tip - R_root)
+TR_collective   = pilot_inputs(tail_collective) # tail rotor collective theta input by pilot

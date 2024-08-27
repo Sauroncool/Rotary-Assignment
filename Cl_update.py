@@ -16,8 +16,8 @@ class Cyclic_Integrator:
         self.R = R
         self.sigma = sigma
         self.V = V
-        self.blade_frequency = blade_frequency
-        self.A = A
+        self.b = b
+        self.a = a # Dcl/D_alpha
         self.Cl = Cl
         self.Cd = Cd
         self.density = density
@@ -29,7 +29,7 @@ class Cyclic_Integrator:
         self.r_values = np.arange(R_root, R, 0.1)  # 0.1 --> step-size
 
     def F(self, r, lamda_val):
-        f = (self.blade_frequency / 2) * ((1 - self.R_root / self.R) / self.lamda_val)
+        f = (self.b / 2) * ((1 - r / self.R) / self.lamda_val)
         return (2 / np.pi) * np.arccos(np.exp(-f))
 
     def lamda_func(self, r, F_val):

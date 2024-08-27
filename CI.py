@@ -1,7 +1,7 @@
 #Integrates forces and moments over a complete rotor cycle. Implements the BE Momentum Theory by definition.
 import numpy as np
 from Airfoil import Airfoil
-from Blade import Blade
+#from Blade import Blade
 from Inflow import Inflow
 from II import Instantaneous_Integrator
 

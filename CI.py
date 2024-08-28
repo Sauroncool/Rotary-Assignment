@@ -1,7 +1,7 @@
 # Integrates forces and moments over a complete rotor cycle. Implements the BE Momentum Theory by definition.
 import numpy as np
 from Airfoil import Airfoil
-from Blade import Blade
+#from Blade import Blade
 from Inflow import Inflow
 # from II import Instantaneous_Integrator
 
@@ -28,6 +28,10 @@ class Cyclic_Integrator:
         self.lamda_c = V / (omega * R)
         self.lamda_values = []
         self.r_values = np.arange(R_root, R, 0.1)  # 0.1 --> step-size
+
+    def AOA(self, r):
+        AOA = 5 * r/r
+        return AOA
 
     def F(self, r, lamda_val):
         f = (self.b / 2) * ((1 - r / self.R) / self.lamda_val)

@@ -1,4 +1,5 @@
 import math
+#MK this is correct, note altitude is in metres
 class Atmosphere:
     def __init__(self, altitude: float=0.0):
         self.altitude=altitude

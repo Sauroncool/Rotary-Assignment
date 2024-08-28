@@ -11,13 +11,14 @@ class Cyclic_Integrator:
                  omega, Blade: theta, R_root, R, sigma, A, Atmosphere: density):
         self.Instantaneous_Integrator = Instantaneous_Integrator
         # self.lamda_val = lamda_val
+        self.phi = phi # taninv(lamda)
         self.omega = omega
         self.R_root = R_root
         self.R = R
         self.sigma = sigma
         self.V = V
-        self.blade_frequency = blade_frequency
-        self.A = A
+        self.b = b
+        self.a = a # Dcl/D_alpha
         self.Cl = Cl
         self.Cd = Cd
         self.density = density
@@ -29,7 +30,7 @@ class Cyclic_Integrator:
         self.r_values = np.arange(R_root, R, 0.1)  # 0.1 --> step-size
 
     def F(self, r, lamda_val):
-        f = (self.blade_frequency / 2) * ((1 - self.R_root / self.R) / self.lamda_val)
+        f = (self.b / 2) * ((1 - r / self.R) / self.lamda_val)
         return (2 / np.pi) * np.arccos(np.exp(-f))
 
     def lamda_func(self, r, F_val):
@@ -79,7 +80,7 @@ def Up(self, r):
 def Cyclic_Integrator(self):
     self.calculate_lamda_values()
 
-    Thrust = self.blade_frequency * sum(0.5 * self.density * (self.Ut(r) ** 2 + self.Up(r) ** 2) * self.chord *
+    Thrust = self.b * sum(0.5 * self.density * (self.Ut(r) ** 2 + self.Up(r) ** 2) * self.chord *
                                         (self.Airfoil.Cl * np.cos(self.Airfoil.phi) -
                                          self.Airfoil.Cd * np.sin(self.Airfoil.phi))
                                         for r in self.r_values)

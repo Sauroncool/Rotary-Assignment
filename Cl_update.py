@@ -9,12 +9,13 @@ from Inflow import Inflow
 
 
 class Cyclic_Integrator:
-    def __init__(self, inflow=None, phi=0.1, omega=1.0, R_root=0.0, R=10.0, sigma=0.1, b=2.0, a=0.1, density=1.225,
+    def __init__(self, inflow=None,theta = 3*np.pi/180, phi=0.1, omega=1.0, R_root=0.0, R=10.0, sigma=0.1, b=2.0, a=0.1, density=1.225,
                  chord=0.5):
         if inflow is None:
             inflow = Inflow()  # Create an instance of the Inflow class
         # Use default parameters if no inflow instance is provided
         self.V = inflow.vehicle_velocity
+        self.theta=theta
         self.phi = phi  # taninv(lamda)
         self.omega = omega
         self.R_root = R_root
@@ -32,14 +33,14 @@ class Cyclic_Integrator:
 
     def Cl(self, r):
         airfoil = Airfoil()  # Create an instance of the Airfoil class
-        AOA = airfoil.AOA(r)
-        Cl, Cd = Airfoil.get_coeff(AOA)
+        #AOA = airfoil.AOA(r)
+        Cl, Cd = airfoil.get_coeff(r)
         return Cl
 
     def Cd(self, r):
         airfoil = Airfoil()  # Create an instance of the Airfoil class
-        AOA = airfoil.AOA(r)
-        Cl, Cd = Airfoil.get_coeff(AOA)
+        # AOA = airfoil.AOA(r)
+        Cl, Cd = airfoil.get_coeff(r)
         return Cd
 
     def F(self, r, lamda_val):
@@ -48,9 +49,9 @@ class Cyclic_Integrator:
 
     def lamda_func(self, r, F_val):
         lamda_val = np.sqrt(((self.sigma * self.a / (
-                16 * F_val)) - self.lamda_c / 2) ** 2 + self.sigma * self.A * self.theta * self.R_root / (
+                16 * F_val)) - self.lamda_c / 2) ** 2 + self.sigma * self.a * self.theta * self.R_root / (
                                     8 * F_val * self.R)) - (
-                            self.sigma * self.A / (16 * F_val) - self.lamda_c / 2)
+                            self.sigma * self.a / (16 * F_val) - self.lamda_c / 2)
         return lamda_val
 
     def solve_interdependent(self, r, tol=1e-8, max_iter=100):
@@ -58,7 +59,7 @@ class Cyclic_Integrator:
         for i in range(max_iter):
             F_val = self.F(r, lamda_val)
             new_lamda_val = self.lamda_func(r, F_val)
-            if np.abs(new_lamda_val - self.lamda_val) < tol:
+            if np.abs(new_lamda_val - lamda_val) < tol:
                 break  # convergence reached
             self.lamda_val = new_lamda_val
         return F_val, new_lamda_val
@@ -70,7 +71,7 @@ class Cyclic_Integrator:
             self.lamda_values.append((r, lamda_val))  # storing lamda_val for corresponding r
 
     # As we have now have lamda value for each descrete r we will make a function out of this
-    def lamda(r):
+    def lamda(self, r):
         for r_val, lamda_val in self.lamda_values:
             if r_val == r:
                 return lamda_val

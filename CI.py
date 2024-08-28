@@ -3,11 +3,11 @@ import numpy as np
 from Airfoil import Airfoil
 from Blade import Blade
 from Inflow import Inflow
-from II import Instantaneous_Integrator
+# from II import Instantaneous_Integrator
 
 
 class Cyclic_Integrator:
-    def __init__(self, Airfoil: Cl, Cd, chord, Instantaneous_Integrator: Instantaneous_Integrator, Inflow: V, lamda_val,
+    def __init__(self, Airfoil: Cl, Cd, chord, Inflow: V, lamda_val,
                  omega, Blade: theta, R_root, R, sigma, A, Atmosphere: density):
         self.Instantaneous_Integrator = Instantaneous_Integrator
         # self.lamda_val = lamda_val

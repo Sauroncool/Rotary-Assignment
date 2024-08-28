@@ -4,6 +4,7 @@ import math
 
 class Airfoil:
     def __init__(self, alpha):
+        self.Cl=Cl
         Cl=2*math.pi*alpha
         return Cl
 

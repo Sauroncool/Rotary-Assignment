@@ -26,20 +26,20 @@ class Cyclic_Integrator:
         return chord
 
     def phi(self, r):
-        phi = np.arctan((self.V + self.v(r)) / (self.omega * r))
+        phi = np.arctan((self.V + self.v(r)) / (self.omega * r))*180/np.pi
         return phi
 
     def theta(self, r):
         theta = MR_cyclic_a1 + MR_cyclic_a2 + MR_collective + MR_twist
         return theta
 
-    def AOA(self, r):
+    def AOA(self, r):  # Angle of Attack as a function of r
         AOA = self.theta(r) - self.phi(r)
         return AOA
 
     polar_data = read_polar_data()
 
-    def Cl(self, aoa, data=polar_data):
+    def Cl(self, aoa, data=polar_data):  # Cl as a function of AOA
         alphas = [entry['aoa'] for entry in data]
         cls = [entry['cl'] for entry in data]
         # Convert lists to numpy arrays for interpolation
@@ -49,7 +49,7 @@ class Cyclic_Integrator:
         cl_interp = np.interp(aoa, alphas, cls)
         return cl_interp
 
-    def Cd(self, aoa, data=polar_data):
+    def Cd(self, aoa, data=polar_data):  # Cd as a function of AOA
         alphas = [entry['aoa'] for entry in data]
         cds = [entry['cd'] for entry in data]
         # Convert lists to numpy arrays for interpolation
@@ -59,12 +59,11 @@ class Cyclic_Integrator:
         cd_interp = np.interp(aoa, alphas, cds)
         return cd_interp
 
-    def a(self, aoa, h=1e-2):  # dcl/d_alpha
+    def a(self, aoa, h=1e-2):  # dcl/d_alpha as a function of AOA
         cl_plus = self.Cl(aoa + h)
         cl_minus = self.Cl(aoa - h)
 
         dcl_dalpha = (cl_plus - cl_minus) / (2 * h)
-        # dcl_dalpha = 0.1
         return dcl_dalpha
 
     def F(self, r, lamda_val):
@@ -115,11 +114,13 @@ class Cyclic_Integrator:
         self.calculate_lamda_values()
 
         Thrust = self.b * sum((0.5 * self.density * (self.Ut(r) ** 2 + self.Up(r) ** 2) * self.chord(r) *
-                               (self.Cl(self.AOA(r)) * np.cos(self.phi(r)) - self.Cd(self.AOA(r)) * np.sin(self.phi(r)))) * self.stepsize
+                               (self.Cl(self.AOA(r)) * np.cos(self.phi(r)*np.pi/180) - self.Cd(self.AOA(r)) * np.sin(
+                                   self.phi(r)*np.pi/180))) * self.stepsize
                               for r in self.r_values)
 
         Torque = self.b * sum((r * 0.5 * self.density * (self.Ut(r) ** 2 + self.Up(r) ** 2) * self.chord(r) *
-                               (self.Cd(self.AOA(r)) * np.cos(self.phi(r)) + self.Cl(self.AOA(r)) * np.sin(self.phi(r)))) * self.stepsize
+                               (self.Cd(self.AOA(r)) * np.cos(self.phi(r)*np.pi/180) + self.Cl(self.AOA(r)) * np.sin(
+                                   self.phi(r)*np.pi/180))) * self.stepsize
                               for r in self.r_values)
 
         Power = self.omega * Torque

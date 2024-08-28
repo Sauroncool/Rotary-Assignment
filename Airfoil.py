@@ -12,13 +12,13 @@ class Airfoil:
     cm_data = {'alpha': [0, 5, 10, 15], 'Cm': [0.0, -0.02, -0.04, -0.03]}
 
     def get_cl(self, aoa: float):
-        return np.interp(aoa, self.cl_data['alpha'], self.cl_data['cl'])
+        return np.interp(aoa, self.cl_data['alpha'], self.cl_data['Cl'])
     
     def get_cd(self, aoa: float):
-        return np.interp(aoa, self.cd_data['alpha'], self.cd_data['cd'])
+        return np.interp(aoa, self.cd_data['alpha'], self.cd_data['Cd'])
 
     def get_cm(self, aoa: float):
-        return np.interp(aoa, self.cm_data['alpha'], self.cm_data['cd'])
+        return np.interp(aoa, self.cm_data['alpha'], self.cm_data['Cd'])
 
 
 # Addition of Some code to fetch airfoil data. Fetch cl, cd and cm of an airfoil

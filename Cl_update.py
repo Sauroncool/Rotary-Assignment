@@ -6,7 +6,7 @@ from Inflow import *
 
 
 class Cyclic_Integrator:
-    def __init__(self, sigma=0.1, density=1.225):
+    def __init__(self, sigma=0.08, density=1.225):
         self.V = vehicle_velocity
         self.omega = MR_omega
         self.R_root = MR_root_radius

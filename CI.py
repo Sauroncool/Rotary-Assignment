@@ -1,98 +1,104 @@
-#Integrates forces and moments over a complete rotor cycle. Implements the BE Momentum Theory by definition.
+# Integrates forces and moments over a complete rotor cycle. Implements the BE Momentum Theory by definition.
 import numpy as np
 from Airfoil import Airfoil
-#from Blade import Blade
+from Blade import Blade
 from Inflow import Inflow
 from II import Instantaneous_Integrator
 
 
 class Cyclic_Integrator:
-    def __init__(self, Airfoil: Cl, Cd, chord, Instantaneous_Integrator: Instantaneous_Integrator, Inflow: V, lamda_val, omega, Blade: theta, Rrc, R, sigma, A, Atmosphere: density):
-        self.Instantaneous_Integrator=Instantaneous_Integrator
-        self.lamda_val=lamda_val
-        self.omega=omega
-        self.Rrc=Rrc
-        self.R=R
-        self.sigma=sigma
-        self.V=V
-        self.blade_frequency=blade_frequency
-        self.A=A
-        self.Cl=Cl
-        self.Cd=Cd
-        self.density=density
-        self.chord=chord
-        r=Rrc
+    def __init__(self, Airfoil: Cl, Cd, chord, Instantaneous_Integrator: Instantaneous_Integrator, Inflow: V, lamda_val,
+                 omega, Blade: theta, R_root, R, sigma, A, Atmosphere: density):
+        self.Instantaneous_Integrator = Instantaneous_Integrator
+        # self.lamda_val = lamda_val
+        self.phi = phi # taninv(lamda)
+        self.omega = omega
+        self.R_root = R_root
+        self.R = R
+        self.sigma = sigma
+        self.V = V
+        self.b = b
+        self.a = a # Dcl/D_alpha
+        self.Cl = Cl
+        self.Cd = Cd
+        self.density = density
+        self.chord = chord
+        # r = R_root
 
-        self.lamda_c=V/(omega*R)
-        self.lamda_values=[]
-        self.r_values=np.arange(Rrc, R, 0.1)        # 0.1 --> step-size
+        self.lamda_c = V / (omega * R)
+        self.lamda_values = []
+        self.r_values = np.arange(R_root, R, 0.1)  # 0.1 --> step-size
 
-    def F(self, Rrc, lamda_val):
-        f = (self.blade_frequency/2) * ((1-self.Rrc/self.R)/self.lamda_val)
-        return (2/np.pi) * np.arccos(np.exp(-f))
+    def F(self, r, lamda_val):
+        f = (self.b / 2) * ((1 - r / self.R) / self.lamda_val)
+        return (2 / np.pi) * np.arccos(np.exp(-f))
 
-    def lamda_func(self, Rrc, F_val):
-        self.lamda_val=np.sqrt(((self.sigma * self.a / (16 * F_val)) - self.lamda_c / 2) ** 2 + self.sigma * self.A * self.theta * self.Rrc / (8 * F_val * self.R)) - (self.sigma * self.A / (16 * F_val) - self.lamda_c / 2)
+    def lamda_func(self, r, F_val):
+        lamda_val = np.sqrt(((self.sigma * self.a / (
+                    16 * F_val)) - self.lamda_c / 2) ** 2 + self.sigma * self.A * self.theta * self.R_root / (
+                                             8 * F_val * self.R)) - (
+                                     self.sigma * self.A / (16 * F_val) - self.lamda_c / 2)
         return lamda_val
 
-    def solve_interdependent(self, Rrc, tol=1e-8, max_iter=100):
-        self.lamda_val=self.lamda_c
+    def solve_interdependent(self, r, tol=1e-8, max_iter=100):
+        lamda_val = self.lamda_c
         for i in range(max_iter):
-            F_val = self.F(Rrc, lamda_val)
-            new_lamda_val = self.lamda_func(Rrc, F_val)
-            if np.abs(new_lamda_val-self.lamda_val)<tol:
-                 break #convergence reached
-            self.lamda_val=new_lamda_val
+            F_val = self.F(r, lamda_val)
+            new_lamda_val = self.lamda_func(r, F_val)
+            if np.abs(new_lamda_val - self.lamda_val) < tol:
+                break  # convergence reached
+            self.lamda_val = new_lamda_val
         return F_val, new_lamda_val
 
-
-    # Call the function for each Rrc and store the result
+    # Call the function for each R_root and store the result
     def calculate_lamda_values(self):
-        for Rrc in self.r_values:
-            F_val, lamda_val = solve_interdependent(Rrc)
-            lamda_values.append((Rrc, lamda_val)) # storing lamda_val for corresponding r
+        for r in self.r_values:
+            F_val, lamda_val = self.solve_interdependent(r)
+            self.lamda_values.append((r, lamda_val))  # storing lamda_val for corresponding r
 
 
 # As we have now have lamda value for each descrete r we will make a function out of this
-def lamda(R):
-    for Rrc_val, lamda_val in lamda_values:
-        if Rrc_val == Rrc:
+def lamda(r):
+    for r_val, lamda_val in self.lamda_values:
+        if r_val == r:
             return lamda_val
 
 
-def v(self, Rrc):
+def v(self, r):
     v = self.lamda(r) * self.omega * self.R - self.V
     return v
 
 
-def Ut(self, Rrc):
-    return self.omega * self.Rrc
+def Ut(self, r):
+    return self.omega * r
 
 
-def Up(self, Rrc):
-    return self.V + self.v(Rrc)
+def Up(self, r):
+    return self.V + self.v(r)
+
 
 def Cyclic_Integrator(self):
     self.calculate_lamda_values()
 
-    Thrust = self.blade_frequency * sum(0.5 * self.density * (self.Ut(r) ** 2 + self.Up(r) ** 2) * self.chord *
-                              (self.Airfoil.Cl * np.cos(self.Airfoil.phi) - 
-                               self.Airfoil.Cd * np.sin(self.Airfoil.phi))
-                              for Rrc in self.r_values)
+    Thrust = self.b * sum(0.5 * self.density * (self.Ut(r) ** 2 + self.Up(r) ** 2) * self.chord *
+                                        (self.Airfoil.Cl * np.cos(self.Airfoil.phi) -
+                                         self.Airfoil.Cd * np.sin(self.Airfoil.phi))
+                                        for r in self.r_values)
 
     Torque = self.b * sum(r * 0.5 * self.rho * (self.Ut(r) ** 2 + self.Up(r) ** 2) * self.chord *
-                              (self.Airfoil.Cd * np.cos(self.Airfoil.phi) + 
-                               self.Airfoil.Cl * np.sin(self.Airfoil.phi))
-                              for Rrc in self.r_values)
+                          (self.Airfoil.Cd * np.cos(self.Airfoil.phi) +
+                           self.Airfoil.Cl * np.sin(self.Airfoil.phi))
+                          for r in self.r_values)
 
-    Power = self.omega * torque
+    Power = self.omega * Torque
 
     return Thrust, Torque, Power
 
+
 def BEMT_Coefficient_Calculator(self, Thrust, Torque, Power, A):
-        Ct = Thrust/(self.density*A*(self.omega*self.R)**2)
-        Cq = Torque/(self.density*A*self.R*(self.omega*self.R)**2)
-        Cp = Power/(self.density*A*(self.omega*self.R)**3)
-        return Ct, Cq, Cp
-    
+    Ct = Thrust / (self.density * A * (self.omega * self.R) ** 2)
+    Cq = Torque / (self.density * A * self.R * (self.omega * self.R) ** 2)
+    Cp = Power / (self.density * A * (self.omega * self.R) ** 3)
+    return Ct, Cq, Cp
+
 

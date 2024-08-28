@@ -4,25 +4,16 @@ from Airfoil import *
 from Blade import *
 from Inflow import *
 
-
-# from II import Instantaneous_Integrator
-
-
 class Cyclic_Integrator:
-    def __init__(self, theta=3 * np.pi / 180, phi=0.1, sigma=0.1, a=0.1,
-                 density=1.225,
-                 chord=0.5):
+    def __init__(self, sigma=0.1, a=0.1,density=1.225):
         self.V = vehicle_velocity
-        self.theta = theta
-        self.phi = phi  # taninv(lamda)
         self.omega = MR_omega
-        self.R_root = MR_root_cutout
+        self.R_root = MR_root_radius
         self.R = MR_radius
         self.sigma = sigma
         self.b = MR_nu_blades  # no of blades
         self.a = a  # Dcl/D_alpha
         self.density = density
-        self.chord = chord
         # r = R_root
 
         self.lamda_c = self.V / (self.omega * self.R)
@@ -30,8 +21,20 @@ class Cyclic_Integrator:
         self.stepsize = 0.1
         self.r_values = np.arange(self.R_root, self.R, self.stepsize)
 
+    def chord(self, r, taper=MR_taper):
+        chord = MR_root_chord - taper * (r - MR_root_radius)  # Modify as needed based on your formula
+        return chord
+
+    def phi(self, r):
+        phi = np.arctan((self.V + self.v(r)) / (self.omega * r))
+        return phi
+
+    def theta(self, r):
+        theta = MR_cyclic_a1 + MR_cyclic_a2 + MR_collective + MR_twist
+        return theta
+
     def AOA(self, r):
-        AOA = 5 * np.pi / 180 * r  # Modify as needed based on your formula
+        AOA = self.theta(r) - self.phi(r)
         return AOA
 
     polar_data = read_polar_data()
@@ -64,7 +67,7 @@ class Cyclic_Integrator:
 
     def lamda_func(self, r, F_val):
         lamda_val = np.sqrt(((self.sigma * self.a / (
-                16 * F_val)) - self.lamda_c / 2) ** 2 + self.sigma * self.a * self.theta * self.R_root / (
+                16 * F_val)) - self.lamda_c / 2) ** 2 + self.sigma * self.a * self.theta(r) * self.R_root / (
                                     8 * F_val * self.R)) - (
                             self.sigma * self.a / (16 * F_val) - self.lamda_c / 2)
 
@@ -105,20 +108,20 @@ class Cyclic_Integrator:
     def calculate_thrust_torque_power(self):
         self.calculate_lamda_values()
 
-        Thrust = self.b * sum((0.5 * self.density * (self.Ut(r) ** 2 + self.Up(r) ** 2) * self.chord *
-                               (self.Cl(r) * np.cos(self.phi) - self.Cd(r) * np.sin(self.phi))) * self.stepsize
+        Thrust = self.b * sum((0.5 * self.density * (self.Ut(r) ** 2 + self.Up(r) ** 2) * self.chord(r) *
+                               (self.Cl(r) * np.cos(self.phi(r)) - self.Cd(r) * np.sin(self.phi(r)))) * self.stepsize
                               for r in self.r_values)
 
-        Torque = self.b * sum((r * 0.5 * self.density * (self.Ut(r) ** 2 + self.Up(r) ** 2) * self.chord *
-                               (self.Cd(r) * np.cos(self.phi) + self.Cl(r) * np.sin(self.phi))) * self.stepsize
+        Torque = self.b * sum((r * 0.5 * self.density * (self.Ut(r) ** 2 + self.Up(r) ** 2) * self.chord(r) *
+                               (self.Cd(r) * np.cos(self.phi(r)) + self.Cl(r) * np.sin(self.phi(r)))) * self.stepsize
                               for r in self.r_values)
 
         Power = self.omega * Torque
 
         return Thrust, Torque, Power
 
-    def BEMT_Coefficient_Calculator(self, Thrust, Torque, Power, A):
-        Ct = Thrust / (self.density * A * (self.omega * self.R) ** 2)
-        Cq = Torque / (self.density * A * self.R * (self.omega * self.R) ** 2)
-        Cp = Power / (self.density * A * (self.omega * self.R) ** 3)
+    def BEMT_Coefficient_Calculator(self, Thrust, Torque, Power):
+        Ct = Thrust / (self.density * (2*np.pi*self.R**2) * (self.omega * self.R) ** 2)
+        Cq = Torque / (self.density * (2*np.pi*self.R**2) * self.R * (self.omega * self.R) ** 2)
+        Cp = Power / (self.density * (2*np.pi*self.R**2) * (self.omega * self.R) ** 3)
         return Ct, Cq, Cp

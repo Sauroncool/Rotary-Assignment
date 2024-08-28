@@ -10,7 +10,8 @@ user_inputs = get_user_inputs()
 MR_radius = user_inputs['main_radius']  # main rotor blade radius, in metres
 MR_nu_blades = user_inputs['main_number']  # number of blades in main rotor
 MR_omega = user_inputs['main_omega']  # main rotor rotation rate, in rpm
-MR_root_cutout = user_inputs['main_root_cutout']  # main rotor root cutout, in metres
+MR_root_radius = user_inputs['main_root_radius']  # main rotor root cutout, in metres
+MR_root_chord = user_inputs['main_root_chord'] # main rotor root chord, in metres
 MR_taper = user_inputs['main_taper']  # main rotor taper, defined as taper = (chord_tip - chord_root) / (R_tip - R_root)
 MR_twist = user_inputs['main_twist']  # main rotor twist, defined as twist = (theta_tip - theta_root) / (R_tip - R_root)
 MR_collective = user_inputs['main_collective']  # main rotor collective theta input by pilot

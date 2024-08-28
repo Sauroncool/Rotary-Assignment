@@ -4,7 +4,7 @@ from CI import CI
 #MK this is to be updated as airfoil = airfoil (alpha, cl_data, cd_data, cm_data), typically at each 0.5deg
 
 class Airfoil:
-    def __init__(self, CI:AOA):
+    def get_coeff(self, CI:AOA):
         self.AOA= AOA
         self.Cl=Cl
         self.Cd=Cd

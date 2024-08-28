@@ -32,6 +32,8 @@ class Cyclic_Integrator:
     def AOA(self, r):
         AOA = 5 * r/r
         return AOA
+    
+    Cl, Cd = Airfoil.get_coeff(AOA)
 
     def F(self, r, lamda_val):
         f = (self.b / 2) * ((1 - r / self.R) / self.lamda_val)

@@ -1,11 +1,11 @@
-from Cl_update import Cyclic_Integrator  # Import the Cyclic_Integrator class
+from Cl_update import Cyclic_Integrator
 
 def main():
     # Create an instance of the Cyclic_Integrator class
     integrator = Cyclic_Integrator()
 
     # Call a method on the instance to perform the integration and calculate Thrust, Torque, and Power
-    Thrust, Torque, Power = integrator.Cyclic_Integrator()
+    Thrust, Torque, Power = integrator.calculate_thrust_torque_power()
 
     # Print the results
     print(f"Thrust: {Thrust} N")

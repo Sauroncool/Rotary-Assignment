@@ -7,6 +7,10 @@ class Airfoil:
         self.cd_data = cd_data
         self.cm_data = cm_data
 
+    cl_data = {'alpha': [0, 5, 10, 15], 'cl': [0.0, 0.5, 1.0, 0.8]}
+    cd_data = {'alpha': [0, 5, 10, 15], 'cd': [0.01, 0.015, 0.02, 0.025]}
+    cm_data = {'alpha': [0, 5, 10, 15], 'cm': [0.0, -0.02, -0.04, -0.03]}
+
     def get_cl(self, aoa: float):
         return np.interp(aoa, self.cl_data['alpha'], self.cl_data['cl'])
     
@@ -19,6 +23,3 @@ class Airfoil:
 
 # Addition of Some code to fetch airfoil data. Fetch cl, cd and cm of an airfoil
 # say sample data is # Sample data
-#cl_data = {'alpha': [0, 5, 10, 15], 'cl': [0.0, 0.5, 1.0, 0.8]}
-#cd_data = {'alpha': [0, 5, 10, 15], 'cd': [0.01, 0.015, 0.02, 0.025]}
-#cm_data = {'alpha': [0, 5, 10, 15], 'cm': [0.0, -0.02, -0.04, -0.03]}

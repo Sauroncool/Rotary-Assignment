@@ -1,0 +1,20 @@
+#MK defined, this actually needs to be in gui mode
+
+MR_radius       = 10
+MR_nu_blades    = 3
+MR_omega        = 200
+MR_root_cutout  = 1
+MR_taper        = 0.5
+MR_twist        = 5
+MR_collective   = 10
+MR_cyclic_a1    = 0
+MR_cyclic_a2    = 0
+
+
+TR_radius       = 1
+TR_nu_blades    = 2
+TR_omega        = 100
+TR_root_cutout  = 0.1
+TR_taper        = 0.75
+TR_twist        = 2
+TR_collective   = 3

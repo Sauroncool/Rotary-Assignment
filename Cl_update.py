@@ -4,8 +4,9 @@ from Airfoil import *
 from Blade import *
 from Inflow import *
 
+
 class Cyclic_Integrator:
-    def __init__(self, sigma=0.1, a=0.1,density=1.225):
+    def __init__(self, sigma=0.1, density=1.225):
         self.V = vehicle_velocity
         self.omega = MR_omega
         self.R_root = MR_root_radius
@@ -13,12 +14,11 @@ class Cyclic_Integrator:
         self.b = MR_nu_blades  # no of blades
 
         self.sigma = sigma
-        self.a = a  # Dcl/D_alpha
         self.density = density
 
         self.lamda_c = self.V / (self.omega * self.R)
         self.lamda_values = []
-        self.stepsize = 0.1
+        self.stepsize = 0.01
         self.r_values = np.arange(self.R_root, self.R, self.stepsize)
 
     def chord(self, r, taper=MR_taper):
@@ -39,8 +39,7 @@ class Cyclic_Integrator:
 
     polar_data = read_polar_data()
 
-    def Cl(self, r, data=polar_data):
-        aoa = self.AOA(r)
+    def Cl(self, aoa, data=polar_data):
         alphas = [entry['aoa'] for entry in data]
         cls = [entry['cl'] for entry in data]
         # Convert lists to numpy arrays for interpolation
@@ -50,8 +49,7 @@ class Cyclic_Integrator:
         cl_interp = np.interp(aoa, alphas, cls)
         return cl_interp
 
-    def Cd(self, r, data=polar_data):
-        aoa = self.AOA(r)
+    def Cd(self, aoa, data=polar_data):
         alphas = [entry['aoa'] for entry in data]
         cds = [entry['cd'] for entry in data]
         # Convert lists to numpy arrays for interpolation
@@ -61,15 +59,23 @@ class Cyclic_Integrator:
         cd_interp = np.interp(aoa, alphas, cds)
         return cd_interp
 
+    def a(self, aoa, h=1e-2):  # dcl/d_alpha
+        cl_plus = self.Cl(aoa + h)
+        cl_minus = self.Cl(aoa - h)
+
+        dcl_dalpha = (cl_plus - cl_minus) / (2 * h)
+        # dcl_dalpha = 0.1
+        return dcl_dalpha
+
     def F(self, r, lamda_val):
         f = (self.b / 2) * ((1 - r / self.R) / lamda_val)
         return (2 / np.pi) * np.arccos(np.exp(-f))
 
     def lamda_func(self, r, F_val):
-        lamda_val = np.sqrt(((self.sigma * self.a / (
-                16 * F_val)) - self.lamda_c / 2) ** 2 + self.sigma * self.a * self.theta(r) * self.R_root / (
+        lamda_val = np.sqrt(((self.sigma * self.a(r) / (
+                16 * F_val)) - self.lamda_c / 2) ** 2 + self.sigma * self.a(r) * self.theta(r) * self.R_root / (
                                     8 * F_val * self.R)) - (
-                            self.sigma * self.a / (16 * F_val) - self.lamda_c / 2)
+                            self.sigma * self.a(r) / (16 * F_val) - self.lamda_c / 2)
 
         return lamda_val
 
@@ -109,11 +115,11 @@ class Cyclic_Integrator:
         self.calculate_lamda_values()
 
         Thrust = self.b * sum((0.5 * self.density * (self.Ut(r) ** 2 + self.Up(r) ** 2) * self.chord(r) *
-                               (self.Cl(r) * np.cos(self.phi(r)) - self.Cd(r) * np.sin(self.phi(r)))) * self.stepsize
+                               (self.Cl(self.AOA(r)) * np.cos(self.phi(r)) - self.Cd(self.AOA(r)) * np.sin(self.phi(r)))) * self.stepsize
                               for r in self.r_values)
 
         Torque = self.b * sum((r * 0.5 * self.density * (self.Ut(r) ** 2 + self.Up(r) ** 2) * self.chord(r) *
-                               (self.Cd(r) * np.cos(self.phi(r)) + self.Cl(r) * np.sin(self.phi(r)))) * self.stepsize
+                               (self.Cd(self.AOA(r)) * np.cos(self.phi(r)) + self.Cl(self.AOA(r)) * np.sin(self.phi(r)))) * self.stepsize
                               for r in self.r_values)
 
         Power = self.omega * Torque
@@ -121,7 +127,7 @@ class Cyclic_Integrator:
         return Thrust, Torque, Power
 
     def BEMT_Coefficient_Calculator(self, Thrust, Torque, Power):
-        Ct = Thrust / (self.density * (2*np.pi*self.R**2) * (self.omega * self.R) ** 2)
-        Cq = Torque / (self.density * (2*np.pi*self.R**2) * self.R * (self.omega * self.R) ** 2)
-        Cp = Power / (self.density * (2*np.pi*self.R**2) * (self.omega * self.R) ** 3)
+        Ct = Thrust / (self.density * (2 * np.pi * self.R ** 2) * (self.omega * self.R) ** 2)
+        Cq = Torque / (self.density * (2 * np.pi * self.R ** 2) * self.R * (self.omega * self.R) ** 2)
+        Cp = Power / (self.density * (2 * np.pi * self.R ** 2) * (self.omega * self.R) ** 3)
         return Ct, Cq, Cp

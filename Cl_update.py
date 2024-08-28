@@ -12,7 +12,6 @@ class Cyclic_Integrator:
     def __init__(self, theta=3 * np.pi / 180, phi=0.1, sigma=0.1, a=0.1,
                  density=1.225,
                  chord=0.5):
-        # Use default parameters if no inflow instance is provided
         self.V = vehicle_velocity
         self.theta = theta
         self.phi = phi  # taninv(lamda)

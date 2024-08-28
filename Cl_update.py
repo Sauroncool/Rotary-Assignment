@@ -1,6 +1,6 @@
 # Integrates forces and moments over a complete rotor cycle. Implements the BE Momentum Theory by definition.
 import numpy as np
-from Airfoil import Airfoil
+from Airfoil import *
 from Blade import *
 from Inflow import *
 
@@ -19,7 +19,7 @@ class Cyclic_Integrator:
         self.R_root = MR_root_cutout
         self.R = MR_radius
         self.sigma = sigma
-        self.b = MR_nu_blades
+        self.b = MR_nu_blades  # no of blades
         self.a = a  # Dcl/D_alpha
         self.density = density
         self.chord = chord
@@ -30,17 +30,33 @@ class Cyclic_Integrator:
         self.stepsize = 0.1
         self.r_values = np.arange(self.R_root, self.R, self.stepsize)
 
-    def Cl(self, r):
-        airfoil = Airfoil()  # Create an instance of the Airfoil class
-        #AOA = airfoil.AOA(r)
-        Cl, Cd = airfoil.get_coeff(r)
-        return Cl
+    def AOA(self, r):
+        AOA = 5 * np.pi / 180 * r  # Modify as needed based on your formula
+        return AOA
 
-    def Cd(self, r):
-        airfoil = Airfoil()  # Create an instance of the Airfoil class
-        # AOA = airfoil.AOA(r)
-        Cl, Cd = airfoil.get_coeff(r)
-        return Cd
+    polar_data = read_polar_data()
+
+    def Cl(self, r, data=polar_data):
+        aoa = self.AOA(r)
+        alphas = [entry['aoa'] for entry in data]
+        cls = [entry['cl'] for entry in data]
+        # Convert lists to numpy arrays for interpolation
+        alphas = np.array(alphas)
+        cls = np.array(cls)
+        # Use numpy to interpolate CL at the requested AOA
+        cl_interp = np.interp(aoa, alphas, cls)
+        return cl_interp
+
+    def Cd(self, r, data=polar_data):
+        aoa = self.AOA(r)
+        alphas = [entry['aoa'] for entry in data]
+        cds = [entry['cd'] for entry in data]
+        # Convert lists to numpy arrays for interpolation
+        alphas = np.array(alphas)
+        cds = np.array(cds)
+        # Use numpy to interpolate CD at the requested AOA
+        cd_interp = np.interp(aoa, alphas, cds)
+        return cd_interp
 
     def F(self, r, lamda_val):
         f = (self.b / 2) * ((1 - r / self.R) / lamda_val)
@@ -51,6 +67,7 @@ class Cyclic_Integrator:
                 16 * F_val)) - self.lamda_c / 2) ** 2 + self.sigma * self.a * self.theta * self.R_root / (
                                     8 * F_val * self.R)) - (
                             self.sigma * self.a / (16 * F_val) - self.lamda_c / 2)
+
         return lamda_val
 
     def solve_interdependent(self, r, tol=1e-8, max_iter=100):
@@ -89,16 +106,14 @@ class Cyclic_Integrator:
         self.calculate_lamda_values()
 
         Thrust = self.b * sum((0.5 * self.density * (self.Ut(r) ** 2 + self.Up(r) ** 2) * self.chord *
-                              (self.Cl(r) * np.cos(self.phi) - self.Cd(r) * np.sin(self.phi)))*self.stepsize
+                               (self.Cl(r) * np.cos(self.phi) - self.Cd(r) * np.sin(self.phi))) * self.stepsize
                               for r in self.r_values)
 
         Torque = self.b * sum((r * 0.5 * self.density * (self.Ut(r) ** 2 + self.Up(r) ** 2) * self.chord *
-                              (self.Cd(r) * np.cos(self.phi) + self.Cl(r) * np.sin(self.phi)))*self.stepsize
+                               (self.Cd(r) * np.cos(self.phi) + self.Cl(r) * np.sin(self.phi))) * self.stepsize
                               for r in self.r_values)
 
         Power = self.omega * Torque
-
-        return Thrust, Torque, Power
 
         return Thrust, Torque, Power
 

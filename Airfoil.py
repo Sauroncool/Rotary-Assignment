@@ -14,6 +14,45 @@ class Airfoil:
         Cd = 0.35
         return Cl, Cd
 
+def read_polar_data(file_path = 'NACA0012.txt'):
+    """
+    Reads the polar data from a file and stores AOA, CL, and CD in a list of dictionaries.
+
+    :param file_path: Path to the file containing polar data.
+    :return: List of dictionaries with each dictionary containing 'aoa', 'cl', and 'cd'.
+    """
+    data_list = []
+
+    with open(file_path, 'r') as file:
+        lines = file.readlines()
+
+        # Skip lines until we reach the header of the data table
+        for i, line in enumerate(lines):
+            if line.strip().startswith('alpha'):
+                start_index = i + 1
+                break
+
+        # Iterate through the data lines and store AOA, CL, CD
+        for line in lines[start_index:]:
+            data = line.split()
+            if len(data) < 3:  # Ensure the line contains sufficient data
+                continue
+
+            try:
+                alpha = float(data[0])
+                cl = float(data[1])
+                cd = float(data[2])
+
+                data_list.append({'aoa': alpha, 'cl': cl, 'cd': cd})
+
+            except ValueError:
+                continue  # If conversion fails, skip this line
+
+    return data_list
+
+# Example usage:
+file_path = 'NACA0012.txt'
+polar_data = read_polar_data(file_path)
         
 
 # DO NOT TOUCH, INITIAL SET OF DATA FOR THE FIRST ITERATION

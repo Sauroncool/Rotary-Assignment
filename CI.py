@@ -30,7 +30,7 @@ class Cyclic_Integrator:
         self.r_values = np.arange(R_root, R, 0.1)  # 0.1 --> step-size
 
     def AOA(self, r):
-        AOA = 5 * r/r
+        AOA = 5 * np.pi/180 * r/r
         return AOA
     
     Cl, Cd = Airfoil.get_coeff(AOA)

@@ -1,17 +1,10 @@
 import numpy as np
-import math
-# from CI import CI
-#MK this is to be updated as airfoil = airfoil (alpha, cl_data, cd_data, cm_data), typically at each 0.5deg
 
 class Airfoil:
     def get_coeff(self, AOA):
-        self.AOA= AOA
-        self.Cl=Cl
-        self.Cd=Cd
-        
-        
-        Cl=2*math.pi*AOA
-        Cd=0.35
+        self.AOA = AOA
+        Cl = 2 * np.pi * AOA
+        Cd = 0.35
         return Cl, Cd
         
 

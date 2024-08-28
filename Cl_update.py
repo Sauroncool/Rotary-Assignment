@@ -1,24 +1,23 @@
 # Integrates forces and moments over a complete rotor cycle. Implements the BE Momentum Theory by definition.
 import numpy as np
 from Airfoil import Airfoil
-from Blade import Blade
+# from Blade import Blade
 from Inflow import Inflow
-from II import Instantaneous_Integrator
+
+
+# from II import Instantaneous_Integrator
 
 
 class Cyclic_Integrator:
-    def __init__(self, Airfoil: Cl, Cd, chord, Instantaneous_Integrator: Instantaneous_Integrator, Inflow: V, lamda_val,
-                 omega, Blade: theta, R_root, R, sigma, A, Atmosphere: density):
-        self.Instantaneous_Integrator = Instantaneous_Integrator
-        # self.lamda_val = lamda_val
-        self.phi = phi # taninv(lamda)
+    def __init__(self, inflow, phi, omega, R_root, R, sigma, b, a, density, chord):
+        self.V = inflow.vehicle_velocity
+        self.phi = phi  # taninv(lamda)
         self.omega = omega
         self.R_root = R_root
         self.R = R
         self.sigma = sigma
-        self.V = V
         self.b = b
-        self.a = a # Dcl/D_alpha
+        self.a = a  # Dcl/D_alpha
         self.Cl = Cl
         self.Cd = Cd
         self.density = density
@@ -29,15 +28,27 @@ class Cyclic_Integrator:
         self.lamda_values = []
         self.r_values = np.arange(R_root, R, 0.1)  # 0.1 --> step-size
 
+    def Cl(self,r):
+        airfoil = Airfoil()  # Create an instance of the Airfoil class
+        AOA = airfoil.AOA(r)
+        Cl, Cd = Airfoil.get_coeff(AOA)
+        return Cl
+
+    def Cd(self,r):
+        airfoil = Airfoil()  # Create an instance of the Airfoil class
+        AOA = airfoil.AOA(r)
+        Cl, Cd = Airfoil.get_coeff(AOA)
+        return Cd
+
     def F(self, r, lamda_val):
         f = (self.b / 2) * ((1 - r / self.R) / self.lamda_val)
         return (2 / np.pi) * np.arccos(np.exp(-f))
 
     def lamda_func(self, r, F_val):
         lamda_val = np.sqrt(((self.sigma * self.a / (
-                    16 * F_val)) - self.lamda_c / 2) ** 2 + self.sigma * self.A * self.theta * self.R_root / (
-                                             8 * F_val * self.R)) - (
-                                     self.sigma * self.A / (16 * F_val) - self.lamda_c / 2)
+                16 * F_val)) - self.lamda_c / 2) ** 2 + self.sigma * self.A * self.theta * self.R_root / (
+                                    8 * F_val * self.R)) - (
+                            self.sigma * self.A / (16 * F_val) - self.lamda_c / 2)
         return lamda_val
 
     def solve_interdependent(self, r, tol=1e-8, max_iter=100):
@@ -81,9 +92,9 @@ def Cyclic_Integrator(self):
     self.calculate_lamda_values()
 
     Thrust = self.b * sum(0.5 * self.density * (self.Ut(r) ** 2 + self.Up(r) ** 2) * self.chord *
-                                        (self.Airfoil.Cl * np.cos(self.Airfoil.phi) -
-                                         self.Airfoil.Cd * np.sin(self.Airfoil.phi))
-                                        for r in self.r_values)
+                          (self.Airfoil.Cl * np.cos(self.Airfoil.phi) -
+                           self.Airfoil.Cd * np.sin(self.Airfoil.phi))
+                          for r in self.r_values)
 
     Torque = self.b * sum(r * 0.5 * self.rho * (self.Ut(r) ** 2 + self.Up(r) ** 2) * self.chord *
                           (self.Airfoil.Cd * np.cos(self.Airfoil.phi) +

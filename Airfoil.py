@@ -1,12 +1,17 @@
 import numpy as np
 import math
+from CI import CI
 #MK this is to be updated as airfoil = airfoil (alpha, cl_data, cd_data, cm_data), typically at each 0.5deg
 
 class Airfoil:
-    def __init__(self, alpha):
+    def __init__(self, CI: AOA):
+        self.AOA=AOA
         self.Cl=Cl
-        Cl=2*math.pi*alpha
-        return Cl
+        self.Cd=Cd
+        Cl=2*math.pi*AOA
+        Cd=0.35
+        return Cl, Cd
+        
 
 # DO NOT TOUCH, INITIAL SET OF DATA FOR THE FIRST ITERATION
 # 

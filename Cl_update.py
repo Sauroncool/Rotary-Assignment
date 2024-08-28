@@ -25,15 +25,15 @@ class Cyclic_Integrator:
         chord = MR_root_chord - taper * (r - MR_root_radius)  # Modify as needed based on your formula
         return chord
 
-    def phi(self, r):
-        phi = np.arctan((self.V + self.v(r)) / (self.omega * r))*180/np.pi
+    def phi(self, r):  # In degrees
+        phi = np.arctan((self.V + self.v(r)) / (self.omega * r)) * 180 / np.pi
         return phi
 
-    def theta(self, r):
+    def theta(self, r):  # In degrees
         theta = MR_cyclic_a1 + MR_cyclic_a2 + MR_collective + MR_twist
         return theta
 
-    def AOA(self, r):  # Angle of Attack as a function of r
+    def AOA(self, r):  # Angle of Attack as a function of r (in degrees)
         AOA = self.theta(r) - self.phi(r)
         return AOA
 
@@ -63,7 +63,7 @@ class Cyclic_Integrator:
         cl_plus = self.Cl(aoa + h)
         cl_minus = self.Cl(aoa - h)
 
-        dcl_dalpha = (cl_plus - cl_minus) / (2 * h)
+        dcl_dalpha = ((cl_plus - cl_minus) / (2 * h)) * np.pi / 180  # aoa is in degrees thus multiplying by this factor
         return dcl_dalpha
 
     def F(self, r, lamda_val):
@@ -114,13 +114,15 @@ class Cyclic_Integrator:
         self.calculate_lamda_values()
 
         Thrust = self.b * sum((0.5 * self.density * (self.Ut(r) ** 2 + self.Up(r) ** 2) * self.chord(r) *
-                               (self.Cl(self.AOA(r)) * np.cos(self.phi(r)*np.pi/180) - self.Cd(self.AOA(r)) * np.sin(
-                                   self.phi(r)*np.pi/180))) * self.stepsize
+                               (self.Cl(self.AOA(r)) * np.cos(self.phi(r) * np.pi / 180) - self.Cd(
+                                   self.AOA(r)) * np.sin(
+                                   self.phi(r) * np.pi / 180))) * self.stepsize
                               for r in self.r_values)
 
         Torque = self.b * sum((r * 0.5 * self.density * (self.Ut(r) ** 2 + self.Up(r) ** 2) * self.chord(r) *
-                               (self.Cd(self.AOA(r)) * np.cos(self.phi(r)*np.pi/180) + self.Cl(self.AOA(r)) * np.sin(
-                                   self.phi(r)*np.pi/180))) * self.stepsize
+                               (self.Cd(self.AOA(r)) * np.cos(self.phi(r) * np.pi / 180) + self.Cl(
+                                   self.AOA(r)) * np.sin(
+                                   self.phi(r) * np.pi / 180))) * self.stepsize
                               for r in self.r_values)
 
         Power = self.omega * Torque

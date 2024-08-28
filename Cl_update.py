@@ -1,35 +1,35 @@
 # Integrates forces and moments over a complete rotor cycle. Implements the BE Momentum Theory by definition.
 import numpy as np
 from Airfoil import Airfoil
-# from Blade import Blade
-from Inflow import Inflow
+from Blade import *
+from Inflow import *
 
 
 # from II import Instantaneous_Integrator
 
 
 class Cyclic_Integrator:
-    def __init__(self, inflow=None,theta = 3*np.pi/180, phi=0.1, omega=1.0, R_root=0.0, R=10.0, sigma=0.1, b=2.0, a=0.1, density=1.225,
+    def __init__(self, theta=3 * np.pi / 180, phi=0.1, sigma=0.1, a=0.1,
+                 density=1.225,
                  chord=0.5):
-        if inflow is None:
-            inflow = Inflow()  # Create an instance of the Inflow class
         # Use default parameters if no inflow instance is provided
-        self.V = inflow.vehicle_velocity
-        self.theta=theta
+        self.V = vehicle_velocity
+        self.theta = theta
         self.phi = phi  # taninv(lamda)
-        self.omega = omega
-        self.R_root = R_root
-        self.R = R
+        self.omega = MR_omega
+        self.R_root = MR_root_cutout
+        self.R = MR_radius
         self.sigma = sigma
-        self.b = b
+        self.b = MR_nu_blades
         self.a = a  # Dcl/D_alpha
         self.density = density
         self.chord = chord
         # r = R_root
 
-        self.lamda_c = self.V / (omega * R)
+        self.lamda_c = self.V / (self.omega * self.R)
         self.lamda_values = []
-        self.r_values = np.arange(R_root, R, 0.1)  # 0.1 --> step-size
+        self.stepsize = 0.1
+        self.r_values = np.arange(self.R_root, self.R, self.stepsize)
 
     def Cl(self, r):
         airfoil = Airfoil()  # Create an instance of the Airfoil class
@@ -80,10 +80,8 @@ class Cyclic_Integrator:
         v = self.lamda(r) * self.omega * self.R - self.V
         return v
 
-
     def Ut(self, r):
         return self.omega * r
-
 
     def Up(self, r):
         return self.V + self.v(r)
@@ -91,12 +89,12 @@ class Cyclic_Integrator:
     def calculate_thrust_torque_power(self):
         self.calculate_lamda_values()
 
-        Thrust = self.b * sum(0.5 * self.density * (self.Ut(r) ** 2 + self.Up(r) ** 2) * self.chord *
-                              (self.Cl(r) * np.cos(self.phi) - self.Cd(r) * np.sin(self.phi))
+        Thrust = self.b * sum((0.5 * self.density * (self.Ut(r) ** 2 + self.Up(r) ** 2) * self.chord *
+                              (self.Cl(r) * np.cos(self.phi) - self.Cd(r) * np.sin(self.phi)))*self.stepsize
                               for r in self.r_values)
 
-        Torque = self.b * sum(r * 0.5 * self.density * (self.Ut(r) ** 2 + self.Up(r) ** 2) * self.chord *
-                              (self.Cd(r) * np.cos(self.phi) + self.Cl(r) * np.sin(self.phi))
+        Torque = self.b * sum((r * 0.5 * self.density * (self.Ut(r) ** 2 + self.Up(r) ** 2) * self.chord *
+                              (self.Cd(r) * np.cos(self.phi) + self.Cl(r) * np.sin(self.phi)))*self.stepsize
                               for r in self.r_values)
 
         Power = self.omega * Torque

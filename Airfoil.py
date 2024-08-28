@@ -1,5 +1,6 @@
 import numpy as np
 #MK this is to be updated as airfoil = airfoil (alpha, cl_data, cd_data, cm_data), typically at each 0.5deg
+#testingggg
 
 class Airfoil:
     def _init_(self, cl_data: dict, cd_data: dict, cm_data: dict):

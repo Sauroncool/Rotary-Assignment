@@ -10,11 +10,11 @@ class Cyclic_Integrator:
         self.omega = MR_omega
         self.R_root = MR_root_radius
         self.R = MR_radius
-        self.sigma = sigma
         self.b = MR_nu_blades  # no of blades
+
+        self.sigma = sigma
         self.a = a  # Dcl/D_alpha
         self.density = density
-        # r = R_root
 
         self.lamda_c = self.V / (self.omega * self.R)
         self.lamda_values = []

@@ -7,7 +7,7 @@ from Inflow import Inflow
 
 
 class Cyclic_Integrator:
-    def __init__(self, Airfoil: Cl, Cd, chord, Inflow: V, lamda_val,
+    def __init__(self, Airfoil: Cl, Cd, Inflow: V, lamda_val,
                  omega, Blade: theta, R_root, R, sigma, A, Atmosphere: density):
         # self.Instantaneous_Integrator = Instantaneous_Integrator
         # self.lamda_val = lamda_val

@@ -28,29 +28,28 @@ def get_user_inputs():
         'main_root_radius': float(main_rc_Entry.get()),
         'main_taper': float(main_taper_Entry.get()),
         'main_twist': float(main_twist_Entry.get()),
-        'main_collective': float(main_collective_Entry.get()),
-        'main_cyclic_a1': float(main_cyclic_a1_Entry.get()),
-        'main_cyclic_a2': float(main_cyclic_a2_Entry.get()),
         'tail_radius': float(tail_radius_Entry.get()),
         'tail_number': int(tail_number_Entry.get()),
         'tail_omega': float(tail_omega_Entry.get()),
         'tail_root_cutout': float(tail_root_cutout_Entry.get()),
         'tail_taper': float(tail_taper_Entry.get()),
         'tail_twist': float(tail_twist_Entry.get()),
-        'tail_collective': float(tail_collective_Entry.get())
     }
     print(user_inputs)  # For debugging, print the inputs
     return user_inputs
 
-# # NOT USING THIS ANYMORE, DON'T TOUCH; EXISTS JUST FOR REDUNDANCY
+
 # Function to get pilot inputs
-# def get_pilot_inputs():
-#     MR_collective = float(MR_collective_Entry.get())
-#     MR_cyclic_pitch = float(MR_cyclic_pitch_Entry.get())
-#     MR_cyclic_roll = float(MR_cyclic_roll_Entry.get())
-#     TR_collective = float(TR_collective_Entry.get())
-#     print(MR_collective, MR_cyclic_pitch, MR_cyclic_roll, TR_collective)
-#     return MR_collective, MR_cyclic_pitch, MR_cyclic_roll, TR_collective
+def get_pilot_inputs():
+    pilot_inputs = {
+    'main_collective': float(main_collective_Entry.get()),
+    'main_cyclic_a1': float(main_cyclic_a1_Entry.get()),
+    'main_cyclic_a2': float(main_cyclic_a2_Entry.get()),
+    'tail_collective': float(tail_collective_Entry.get())
+    }
+    print(pilot_inputs)
+    return pilot_inputs
+
 
 # Main window
 root = tk.Tk()

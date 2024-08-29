@@ -11,13 +11,13 @@ Variables (Putting it out here for uniform use everywhere):
 
 1. BLADE(S)
 
-a. MR_radius          -->    main rotor blade radius, in metres<br>
-b. MR_nu_blades       -->    number of blades in main rotor<br>
-c. MR_omega           -->    main rotor rotation rate, in rpm<br>
-d. MR_root_cutout     -->    main rotor root cutout, in metres<br>
-e. MR_taper           -->    main rotor taper, defined as taper    (chord_tip - chord_root) / (R_tip - R_root)<br>
-f. MR_twist           -->    main rotor twist, defined as twist    (theta_tip - theta_root) / (R_tip - R_root)<br>
-g.MR_collective      -->    main rotor collective theta input by pilot<br>
+MR_radius          -->    main rotor blade radius, in metres<br>
+MR_nu_blades       -->    number of blades in main rotor<br>
+MR_omega           -->    main rotor rotation rate, in rpm<br>
+MR_root_cutout     -->    main rotor root cutout, in metres<br>
+MR_taper           -->    main rotor taper, defined as taper    (chord_tip - chord_root) / (R_tip - R_root)<br>
+MR_twist           -->    main rotor twist, defined as twist    (theta_tip - theta_root) / (R_tip - R_root)<br>
+MR_collective      -->    main rotor collective theta input by pilot<br>
 MR_cyclic_a1       -->    main rotor cyclic theta - a1 input<br>
 MR_cyclic_a2       -->    main rotor cyclic theta - a2 input <br>
 TR_radius          -->    tail rotor blade radius, in metres<br>

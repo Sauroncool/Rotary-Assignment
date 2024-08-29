@@ -1,4 +1,4 @@
-from CI import Cyclic_Integrator
+from CI_tail import Cyclic_Integrator
 
 def main():
     # Create an instance of the Cyclic_Integrator class

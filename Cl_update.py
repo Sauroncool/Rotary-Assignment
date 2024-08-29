@@ -63,7 +63,7 @@ class Cyclic_Integrator:
         cd_interp = np.interp(aoa, alphas, cds)
         return cd_interp
 
-    def a(self, aoa, h=1e-1):  # dcl/d_alpha as a function of AOA (per radian)
+    def a(self, aoa, h=1e-2):  # dcl/d_alpha as a function of AOA (per radian)
         cl_plus = self.Cl(aoa + h)
         cl_minus = self.Cl(aoa - h)
 
@@ -103,10 +103,12 @@ class Cyclic_Integrator:
     def lamda(self, r):
         for r_val, lamda_val in self.lamda_values:
             if r_val == r:
+                #print(lamda_val)
                 return lamda_val
 
     def v(self, r):
         v = self.lamda(r) * self.omega * self.R - self.V
+        #print(v)
         return v
 
     def Ut(self, r):
@@ -131,7 +133,7 @@ class Cyclic_Integrator:
                               for r in self.r_values)
 
         Power = self.omega * Torque
-        print(self.omega)
+        #print(self.omega)
         return Thrust, Torque, Power
 
     def BEMT_Coefficient_Calculator(self, Thrust, Torque, Power):

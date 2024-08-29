@@ -19,7 +19,7 @@ class Cyclic_Integrator:
 
         self.lamda_c = self.V / (self.omega * self.R)
         self.lamda_values = []
-        self.stepsize = 0.1
+        self.stepsize = 0.01
         self.r_values = np.arange(self.R_root, self.R, self.stepsize)
 
     def chord(self, r, taper=MR_taper):

@@ -67,33 +67,33 @@ canvas.create_image(0, 0, image=photo, anchor='nw')
 
 
 # Input fields for the main rotor I/Ps
-# tk.Label(root, text="User Inputs:", font=("Arial", 16, "bold")).grid(row=1, column=0, columnspan=2, pady=10)
+tk.Label(root, text="FLIGHT SIMULATOR", font=("Times New Roman", 18, "bold")).grid(row=1, column=0, columnspan=2, pady=10)
 
-tk.Label(root, text="A. Main Rotor Inputs:", font=("Arial", 14, "bold")).grid(row=1, column=0, columnspan=2, pady=10)
+tk.Label(root, text="A. Main Rotor Inputs:", font=("Arial", 14, "bold")).grid(row=2, column=0, columnspan=2, pady=10)
 
-tk.Label(root, text="Main Rotor Radius").grid(row=5, column=0)
+tk.Label(root, text="Main Rotor Radius").grid(row=6, column=0)
 main_radius_Entry = ttk.Entry(root)
-main_radius_Entry.grid(row=5, column=1)
+main_radius_Entry.grid(row=6, column=1)
 
-tk.Label(root, text="Main Rotor Frequency").grid(row=6, column=0)
+tk.Label(root, text="Main Rotor Frequency").grid(row=7, column=0)
 main_number_Entry = ttk.Entry(root)
-main_number_Entry.grid(row=6, column=1)
+main_number_Entry.grid(row=7, column=1)
 
-tk.Label(root, text="Main Rotor Omega").grid(row=7, column=0)
+tk.Label(root, text="Main Rotor Omega").grid(row=8, column=0)
 main_omega_Entry = ttk.Entry(root)
-main_omega_Entry.grid(row=7, column=1)
+main_omega_Entry.grid(row=8, column=1)
 
-tk.Label(root, text="Main Rotor Root Cutout").grid(row=8, column=0)
+tk.Label(root, text="Main Rotor Root Cutout").grid(row=9, column=0)
 main_rc_Entry = ttk.Entry(root)
-main_rc_Entry.grid(row=8, column=1)
+main_rc_Entry.grid(row=9, column=1)
 
-tk.Label(root, text="Main Rotor Taper").grid(row=9, column=0)
+tk.Label(root, text="Main Rotor Taper").grid(row=10, column=0)
 main_taper_Entry = ttk.Entry(root)
-main_taper_Entry.grid(row=9, column=1)
+main_taper_Entry.grid(row=10, column=1)
 
-tk.Label(root, text="Main Rotor Twist").grid(row=10, column=0)
+tk.Label(root, text="Main Rotor Twist").grid(row=11, column=0)
 main_twist_Entry = ttk.Entry(root)
-main_twist_Entry.grid(row=10, column=1)
+main_twist_Entry.grid(row=11, column=1)
 
 # Tail rotor I/P parameters
         # for my reference      
@@ -103,63 +103,63 @@ main_twist_Entry.grid(row=10, column=1)
         # 'TR_root_cutout': float(tail_root_cutout_Entry.get()),
         # 'TR_taper': float(tail_taper_Entry.get()),
         # 'TR_twist': float(tail_twist_Entry.get()),
-tk.Label(root, text="B. Tail Rotor Inputs:", font=("Arial", 14, "bold")).grid(row=14, column=0, columnspan=2, pady=10)
+tk.Label(root, text="B. Tail Rotor Inputs:", font=("Arial", 14, "bold")).grid(row=15, column=0, columnspan=2, pady=10)
 
-tk.Label(root, text="Tail Rotor radius").grid(row=18, column=0)
+tk.Label(root, text="Tail Rotor radius").grid(row=19, column=0)
 tail_radius_Entry = ttk.Entry(root)
-tail_radius_Entry.grid(row=18, column=1)
+tail_radius_Entry.grid(row=19, column=1)
 
-tk.Label(root, text="Tail Rotor Frequency").grid(row=19, column=0)
+tk.Label(root, text="Tail Rotor Frequency").grid(row=20, column=0)
 tail_number_Entry = ttk.Entry(root)
-tail_number_Entry.grid(row=19, column=1)
+tail_number_Entry.grid(row=20, column=1)
 
-tk.Label(root, text="Tail Rotor omega").grid(row=20, column=0)
+tk.Label(root, text="Tail Rotor omega").grid(row=21, column=0)
 tail_omega_Entry = ttk.Entry(root)
-tail_omega_Entry.grid(row=20, column=1)
+tail_omega_Entry.grid(row=21, column=1)
 
-tk.Label(root, text="Tail Rotor Root Cutout").grid(row=21, column=0)
+tk.Label(root, text="Tail Rotor Root Cutout").grid(row=22, column=0)
 tail_root_cutout_Entry = ttk.Entry(root)
-tail_root_cutout_Entry.grid(row=21, column=1)
+tail_root_cutout_Entry.grid(row=22, column=1)
 
-tk.Label(root, text="Tail Rotor Taper").grid(row=22, column=0)
+tk.Label(root, text="Tail Rotor Taper").grid(row=23, column=0)
 tail_taper_Entry=ttk.Entry(root)
-tail_taper_Entry.grid(row=22, column=1)
+tail_taper_Entry.grid(row=23, column=1)
 
-tk.Label(root, text="Tail Rotor Twist").grid(row=23, column=0)
+tk.Label(root, text="Tail Rotor Twist").grid(row=24, column=0)
 tail_twist_Entry=ttk.Entry(root)
-tail_twist_Entry.grid(row=23, column=1)
+tail_twist_Entry.grid(row=24, column=1)
 
 
 
 
 # Input fields for the pilot controls
-tk.Label(root, text="C. Pilot Inputs:", font=("Arial", 16, "bold")).grid(row=1, column=6, columnspan=2, pady=10)
+tk.Label(root, text="C. Pilot Inputs:", font=("Arial", 16, "bold")).grid(row=2, column=6, columnspan=2, pady=10)
 
-tk.Label(root, text="Main Rotor Collective Pitch (Degrees)").grid(row=5, column=6)
+tk.Label(root, text="Main Rotor Collective Pitch (Degrees)").grid(row=6, column=6)
 main_collective_Entry = ttk.Entry(root)
-main_collective_Entry.grid(row=5, column=7)
+main_collective_Entry.grid(row=6, column=7)
 
-tk.Label(root, text="Main Rotor Cyclic Pitch (Degrees)").grid(row=6, column=6)
+tk.Label(root, text="Main Rotor Cyclic Pitch (Degrees)").grid(row=7, column=6)
 main_cyclic_a1_Entry = ttk.Entry(root)
-main_cyclic_a1_Entry.grid(row=6, column=7)
+main_cyclic_a1_Entry.grid(row=7, column=7)
 
-tk.Label(root, text="Main Rotor Cyclic Roll (Degrees)").grid(row=7, column=6)
+tk.Label(root, text="Main Rotor Cyclic Roll (Degrees)").grid(row=8, column=6)
 main_cyclic_a2_Entry = ttk.Entry(root)
-main_cyclic_a2_Entry.grid(row=7, column=7)
+main_cyclic_a2_Entry.grid(row=8, column=7)
 
-tk.Label(root, text="Tail Rotor Collective Pitch (Degrees)").grid(row=8, column=6)
+tk.Label(root, text="Tail Rotor Collective Pitch (Degrees)").grid(row=9, column=6)
 tail_collective_Entry = ttk.Entry(root)
-tail_collective_Entry.grid(row=8, column=7)
+tail_collective_Entry.grid(row=9, column=7)
 
 # Button to submit the inputs
 submit_button = ttk.Button(root, text="Get User Inputs", command=get_user_inputs)
-submit_button.grid(row=35, column=0)
+submit_button.grid(row=36, column=0)
 
 pilot_button = ttk.Button(root, text="Get Pilot Inputs", command=get_pilot_inputs)
-pilot_button.grid(row=35, column=1)
+pilot_button.grid(row=36, column=1)
 
 pilot_button = ttk.Button(root, text="Submit", command=get_pilot_inputs and get_user_inputs)
-pilot_button.grid(row=36, column=0)
+pilot_button.grid(row=37, column=0)
 
 # Start the GUI event loop
 root.mainloop()

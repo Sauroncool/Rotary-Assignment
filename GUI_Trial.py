@@ -52,6 +52,22 @@ def get_pilot_inputs():
     return pilot_inputs
 
 
+def save_inputs_to_file():                          # Stores all the inputs in a file
+    user_inputs = get_user_inputs()
+    pilot_inputs = get_pilot_inputs()
+
+    # Writes inputs to a text file
+    with open("Stored_inputs.txt", "a") as file:    # 'a' mode for appending
+        file.write("User Inputs:\n")
+        for key, value in user_inputs.items():
+            file.write(f"{key}: {value}\n")
+        file.write("\nPilot Inputs:\n")
+        for key, value in pilot_inputs.items():
+            file.write(f"{key}: {value}\n")
+        file.write("-" * 50 + "\n")                 # Run Separator 
+
+    print("Inputs saved to file.")                  # For debugging
+
 # Main window
 root = tk.Tk()
 root.title("Helicopter Flight Simulator")

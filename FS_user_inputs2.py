@@ -9,7 +9,7 @@ def get_user_inputs():
         'main_omega': 960*2*np.pi/60,
         'main_root_radius': 0.125,
         'main_root_chord': 0.0508,
-        'main_taper': 0,
+        'main_taper': 1,
         'main_twist': 0,
         'main_collective': 10,
         'main_cyclic_a1': 0,

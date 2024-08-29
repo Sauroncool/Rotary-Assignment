@@ -1,5 +1,5 @@
-**Rotary-Assignment: **<br>
-*The program has been made modular. The following classes have been created as per the instructions given:*
+**Rotary-Assignment:** <br>
+*The program has been made modular. The following classes have been created as per the instructions given:*<br>
 0. FS_user_inputs (user inputs to be taken for the flight simulator)
 1. Airfoil
 2. Atmosphere

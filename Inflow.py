@@ -11,5 +11,5 @@
 
 
 
-vehicle_velocity = 5 # m/s
+vehicle_velocity = 0.001 # m/s
 wind_velocity = 0 # m/s

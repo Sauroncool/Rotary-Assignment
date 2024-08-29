@@ -28,10 +28,12 @@ class Cyclic_Integrator:
 
     def phi(self, r):  # In degrees
         phi = np.arctan((self.V + self.v(r)) / (self.omega * r)) * 180 / np.pi
+        #print(phi)
         return phi
 
     def theta(self, r):  # In degrees
         theta = MR_cyclic_a1 + MR_cyclic_a2 + MR_collective + MR_twist * (r-MR_root_radius)/(MR_radius-MR_root_radius)
+        #print(theta)
         return theta
 
     def AOA(self, r):  # Angle of Attack as a function of r (in degrees)
@@ -48,7 +50,7 @@ class Cyclic_Integrator:
         cls = np.array(cls)
         # Use numpy to interpolate CL at the requested AOA
         cl_interp = np.interp(aoa, alphas, cls)
-        #print(cl_interp)
+        # print(cl_interp)
         return cl_interp
 
     def Cd(self, aoa, data=polar_data):  # Cd as a function of AOA
@@ -65,7 +67,8 @@ class Cyclic_Integrator:
         cl_plus = self.Cl(aoa + h)
         cl_minus = self.Cl(aoa - h)
 
-        dcl_dalpha = ((cl_plus - cl_minus) / (2 * h)) * np.pi / 180  # aoa is in degrees thus multiplying by this factor
+        dcl_dalpha = ((cl_plus - cl_minus) / (2 * h)) * 180/np.pi  # aoa is in degrees thus multiplying by this factor
+        #print(dcl_dalpha)
         return dcl_dalpha
 
     def F(self, r, lamda_val):
@@ -81,7 +84,7 @@ class Cyclic_Integrator:
         return lamda_val
 
     def solve_interdependent(self, r, tol=1e-8, max_iter=100):
-        lamda_val = self.lamda_c
+        lamda_val = self.lamda_c*0.5
         for i in range(max_iter):
             F_val = self.F(r, lamda_val)
             new_lamda_val = self.lamda_func(r, F_val)
@@ -128,8 +131,7 @@ class Cyclic_Integrator:
                               for r in self.r_values)
 
         Power = self.omega * Torque
-        print(self.sigma)
-
+        print(self.omega)
         return Thrust, Torque, Power
 
     def BEMT_Coefficient_Calculator(self, Thrust, Torque, Power):

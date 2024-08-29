@@ -60,13 +60,14 @@ root.title("Helicopter Flight Simulator")
 image = Image.open("bgimg.jfif") 
 photo = ImageTk.PhotoImage(image)
 
+# This just puts the image in the background (You guys are welcomed to change this image if you find a better one :D )
 canvas = tk.Canvas(root, width=photo.width(), height=photo.height())
 canvas.grid(row=0, column=0, rowspan=100, columnspan=20) 
 canvas.create_image(0, 0, image=photo, anchor='nw')
 
 
 # Input fields for the main rotor I/Ps
-tk.Label(root, text="User Inputs:", font=("Arial", 16, "bold")).grid(row=1, column=0, columnspan=2, pady=10)
+# tk.Label(root, text="User Inputs:", font=("Arial", 16, "bold")).grid(row=1, column=0, columnspan=2, pady=10)
 
 tk.Label(root, text="A. Main Rotor Inputs:", font=("Arial", 14, "bold")).grid(row=1, column=0, columnspan=2, pady=10)
 

@@ -8,7 +8,7 @@ def get_user_inputs():
         'main_omega': 200,
         'main_root_radius': 1,
         'main_root_chord': 2,
-        'main_taper': 0.1,
+        'main_taper': 0.3,
         'main_twist': 1,
         'main_collective': 10,
         'main_cyclic_a1': 0,

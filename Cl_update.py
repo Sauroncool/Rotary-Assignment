@@ -18,11 +18,11 @@ class Cyclic_Integrator:
 
         self.lamda_c = self.V / (self.omega * self.R)
         self.lamda_values = []
-        self.stepsize = 0.01
+        self.stepsize = 0.1
         self.r_values = np.arange(self.R_root, self.R, self.stepsize)
 
     def chord(self, r, taper=MR_taper):
-        chord = MR_root_chord - taper * (r - MR_root_radius)  # Modify as needed based on your formula
+        chord = MR_root_chord*(1 + ((taper-1) / (MR_radius - MR_root_radius)) * (r-MR_root_radius)) # Modify as needed based on your formula
         return chord
 
     def phi(self, r):  # In degrees
@@ -30,7 +30,7 @@ class Cyclic_Integrator:
         return phi
 
     def theta(self, r):  # In degrees
-        theta = MR_cyclic_a1 + MR_cyclic_a2 + MR_collective + MR_twist
+        theta = MR_cyclic_a1 + MR_cyclic_a2 + MR_collective + MR_twist * (r-MR_root_radius)/(MR_radius-MR_root_radius)
         return theta
 
     def AOA(self, r):  # Angle of Attack as a function of r (in degrees)
@@ -130,7 +130,7 @@ class Cyclic_Integrator:
         return Thrust, Torque, Power
 
     def BEMT_Coefficient_Calculator(self, Thrust, Torque, Power):
-        Ct = Thrust / (self.density * (2 * np.pi * self.R ** 2) * (self.omega * self.R) ** 2)
-        Cq = Torque / (self.density * (2 * np.pi * self.R ** 2) * self.R * (self.omega * self.R) ** 2)
-        Cp = Power / (self.density * (2 * np.pi * self.R ** 2) * (self.omega * self.R) ** 3)
+        Ct = Thrust / (self.density * (np.pi * self.R ** 2) * (self.omega * self.R) ** 2)
+        Cq = Torque / (self.density * (np.pi * self.R ** 2) * self.R * (self.omega * self.R) ** 2)
+        Cp = Power / (self.density * (np.pi * self.R ** 2) * (self.omega * self.R) ** 3)
         return Ct, Cq, Cp

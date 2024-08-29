@@ -1,0 +1,144 @@
+import tkinter as tk
+from tkinter import ttk
+# testing commit
+'''
+User I/Ps (to be) taken (For my reference):
+
+bld_main_radius
+bld_main_rootchord
+bld_main_nublades
+bld_main_rootcut
+bld_main_taper
+bld_main_twist
+bld_tail_radius
+bld_tail_chord
+bld_tail_nublades
+bld_tail_rootcut
+bld_tail_taper
+bld_tail_twist
+
+'''
+
+def get_user_inputs():
+    # takes User inputs from the Entry fields.
+    user_inputs = {
+        'MR_radius': float(main_radius_Entry.get()),
+        'MR_nu_blades': int(main_number_Entry.get()),
+        'MR_omega': float(main_omega_Entry.get()),
+        'MR_root_cutout': float(main_rc_Entry.get()),
+        'MR_taper': float(main_taper_Entry.get()),
+        'MR_twist': float(main_twist_Entry.get()),
+        'MR_collective': float(main_collective_Entry.get()),
+        'MR_cyclic_a1': float(main_cyclic_a1_Entry.get()),
+        'MR_cyclic_a2': float(main_cyclic_a2_Entry.get()),
+        'TR_radius': float(tail_radius_Entry.get()),
+        'TR_nu_blades': int(tail_number_Entry.get()),
+        'TR_omega': float(tail_omega_Entry.get()),
+        'TR_root_cutout': float(tail_root_cutout_Entry.get()),
+        'TR_taper': float(tail_taper_Entry.get()),
+        'TR_twist': float(tail_twist_Entry.get()),
+        'TR_collective': float(tail_collective_Entry.get())
+    }
+    print(user_inputs)  # For debugging, print the inputs
+    return user_inputs
+
+# Function to get pilot inputs
+def get_pilot_inputs():
+    MR_collective = float(MR_collective_Entry.get())
+    MR_cyclic_pitch = float(MR_cyclic_pitch_Entry.get())
+    MR_cyclic_roll = float(MR_cyclic_roll_Entry.get())
+    TR_collective = float(TR_collective_Entry.get())
+    print(MR_collective, MR_cyclic_pitch, MR_cyclic_roll, TR_collective)
+    return MR_collective, MR_cyclic_pitch, MR_cyclic_roll, TR_collective
+
+# Main window
+root = tk.Tk()
+root.title("Helicopter Flight Simulator")
+
+# Input fields for the main rotor I/Ps
+tk.Label(root, text="Main Rotor Radius").grid(row=0, column=0)
+main_radius_Entry = ttk.Entry(root)
+main_radius_Entry.grid(row=0, column=1)
+
+tk.Label(root, text="Main Rotor Frequency").grid(row=1, column=0)
+main_number_Entry = ttk.Entry(root)
+main_number_Entry.grid(row=1, column=1)
+
+tk.Label(root, text="Main Rotor Omega").grid(row=2, column=0)
+main_omega_Entry = ttk.Entry(root)
+main_omega_Entry.grid(row=2, column=1)
+
+tk.Label(root, text="Main Rotor Root Cutout").grid(row=3, column=0)
+main_rc_Entry = ttk.Entry(root)
+main_rc_Entry.grid(row=3, column=1)
+
+tk.Label(root, text="Main Rotor Taper").grid(row=4, column=0)
+main_taper_Entry = ttk.Entry(root)
+main_taper_Entry.grid(row=4, column=1)
+
+tk.Label(root, text="Main Rotor Twist").grid(row=5, column=0)
+main_twist_Entry = ttk.Entry(root)
+main_twist_Entry.grid(row=5, column=1)
+
+# Tail rotor I/P parameters
+        # for my reference      
+        # 'TR_radius': float(tail_radius_Entry.get()),
+        # 'TR_nu_blades': int(tail_number_Entry.get()),
+        # 'TR_omega': float(tail_omega_Entry.get()),
+        # 'TR_root_cutout': float(tail_root_cutout_Entry.get()),
+        # 'TR_taper': float(tail_taper_Entry.get()),
+        # 'TR_twist': float(tail_twist_Entry.get()),
+
+tk.Label(root, text="Tail Rotor radius").grid(row=6, column=0)
+tail_radius_Entry = ttk.Entry(root)
+tail_radius_Entry.grid(row=6, column=1)
+
+tk.Label(root, text="Tail Rotor Frequency").grid(row=7, column=0)
+tail_number_Entry = ttk.Entry(root)
+tail_number_Entry.grid(row=7, column=1)
+
+tk.Label(root, text="Tail Rotor omega").grid(row=8, column=0)
+tail_omega_Entry = ttk.Entry(root)
+tail_omega_Entry.grid(row=8, column=1)
+
+tk.Label(root, text="Tail Rotor Root Cutout").grid(row=9, column=0)
+tail_root_cutout_Entry = ttk.Entry(root)
+tail_root_cutout_Entry.grid(row=9, column=1)
+
+tk.Label(root, text="Tail Rotor Taper").grid(row=10, column=0)
+tail_taper_Entry=ttk.Entry(root)
+tail_taper_Entry.grid(row=10, column=1)
+
+tk.Label(root, text="Tail Rotor Twist").grid(row=11, column=0)
+tail_twist_Entry=ttk.Entry(root)
+tail_twist_Entry.grid(row=11, column=1)
+
+
+
+
+# Input fields for the pilot controls
+tk.Label(root, text="Main Rotor Collective Pitch (Degrees)").grid(row=12, column=0)
+main_collective_Entry = ttk.Entry(root)
+main_collective_Entry.grid(row=12, column=1)
+
+tk.Label(root, text="Main Rotor Cyclic Pitch (Degrees)").grid(row=13, column=0)
+main_cyclic_a1_Entry = ttk.Entry(root)
+main_cyclic_a1_Entry.grid(row=13, column=1)
+
+tk.Label(root, text="Main Rotor Cyclic Roll (Degrees)").grid(row=14, column=0)
+main_cyclic_a2_Entry = ttk.Entry(root)
+main_cyclic_a2_Entry.grid(row=14, column=1)
+
+tk.Label(root, text="Tail Rotor Collective Pitch (Degrees)").grid(row=15, column=0)
+tail_collective_Entry = ttk.Entry(root)
+tail_collective_Entry.grid(row=15, column=1)
+
+# Button to submit the inputs
+submit_button = ttk.Button(root, text="Submit", command=get_user_inputs)
+submit_button.grid(row=20, column=0)
+
+pilot_button = ttk.Button(root, text="Get Pilot Inputs", command=get_pilot_inputs)
+pilot_button.grid(row=20, column=1)
+
+# Start the GUI event loop
+root.mainloop()

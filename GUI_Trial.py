@@ -159,7 +159,7 @@ pilot_button = ttk.Button(root, text="Get Pilot Inputs", command=get_pilot_input
 pilot_button.grid(row=36, column=1)
 
 pilot_button = ttk.Button(root, text="Submit", command=get_pilot_inputs and get_user_inputs)
-pilot_button.grid(row=37, column=0)
+pilot_button.grid(row=40, column=0)
 
 # Start the GUI event loop
 root.mainloop()

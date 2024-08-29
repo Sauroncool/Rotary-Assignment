@@ -122,7 +122,7 @@ tail_twist_Entry.grid(row=23, column=1)
 
 
 # Input fields for the pilot controls
-tk.Label(root, text="Pilot Inputs:", font=("Arial", 16, "bold")).grid(row=1, column=6, columnspan=2, pady=10)
+tk.Label(root, text="C. Pilot Inputs:", font=("Arial", 16, "bold")).grid(row=1, column=6, columnspan=2, pady=10)
 
 tk.Label(root, text="Main Rotor Collective Pitch (Degrees)").grid(row=5, column=6)
 main_collective_Entry = ttk.Entry(root)
@@ -146,6 +146,9 @@ submit_button.grid(row=25, column=0)
 
 pilot_button = ttk.Button(root, text="Get Pilot Inputs", command=get_pilot_inputs)
 pilot_button.grid(row=25, column=1)
+
+pilot_button = ttk.Button(root, text="Submit", command=get_pilot_inputs and get_user_inputs)
+pilot_button.grid(row=26, column=0)
 
 # Start the GUI event loop
 root.mainloop()

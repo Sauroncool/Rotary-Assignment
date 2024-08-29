@@ -122,29 +122,30 @@ tail_twist_Entry.grid(row=23, column=1)
 
 
 # Input fields for the pilot controls
-tk.Label(root, text="Pilot Inputs:", font=("Arial", 16, "bold")).grid(row=1, column=0, columnspan=2, pady=10)
-tk.Label(root, text="Main Rotor Collective Pitch (Degrees)").grid(row=12, column=0)
+tk.Label(root, text="Pilot Inputs:", font=("Arial", 16, "bold")).grid(row=1, column=6, columnspan=2, pady=10)
+
+tk.Label(root, text="Main Rotor Collective Pitch (Degrees)").grid(row=5, column=6)
 main_collective_Entry = ttk.Entry(root)
-main_collective_Entry.grid(row=12, column=1)
+main_collective_Entry.grid(row=5, column=7)
 
-tk.Label(root, text="Main Rotor Cyclic Pitch (Degrees)").grid(row=13, column=0)
+tk.Label(root, text="Main Rotor Cyclic Pitch (Degrees)").grid(row=6, column=6)
 main_cyclic_a1_Entry = ttk.Entry(root)
-main_cyclic_a1_Entry.grid(row=13, column=1)
+main_cyclic_a1_Entry.grid(row=6, column=7)
 
-tk.Label(root, text="Main Rotor Cyclic Roll (Degrees)").grid(row=14, column=0)
+tk.Label(root, text="Main Rotor Cyclic Roll (Degrees)").grid(row=7, column=6)
 main_cyclic_a2_Entry = ttk.Entry(root)
-main_cyclic_a2_Entry.grid(row=14, column=1)
+main_cyclic_a2_Entry.grid(row=7, column=7)
 
-tk.Label(root, text="Tail Rotor Collective Pitch (Degrees)").grid(row=15, column=0)
+tk.Label(root, text="Tail Rotor Collective Pitch (Degrees)").grid(row=8, column=6)
 tail_collective_Entry = ttk.Entry(root)
-tail_collective_Entry.grid(row=15, column=1)
+tail_collective_Entry.grid(row=8, column=7)
 
 # Button to submit the inputs
-submit_button = ttk.Button(root, text="Submit", command=get_user_inputs)
-submit_button.grid(row=20, column=0)
+submit_button = ttk.Button(root, text="Get User Inputs", command=get_user_inputs)
+submit_button.grid(row=25, column=0)
 
 pilot_button = ttk.Button(root, text="Get Pilot Inputs", command=get_pilot_inputs)
-pilot_button.grid(row=20, column=1)
+pilot_button.grid(row=25, column=1)
 
 # Start the GUI event loop
 root.mainloop()

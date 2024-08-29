@@ -3,11 +3,11 @@
 
 def get_user_inputs():
     user_inputs = {
-        'main_radius': 10,
-        'main_number': 3,
+        'main_radius': 10, # 0.762
+        'main_number': 3, # 3
         'main_omega': 200,
-        'main_root_radius': 1,
-        'main_root_chord': 2,
+        'main_root_radius': 1, # 0.125
+        'main_root_chord': 2, # 0.0508
         'main_taper': 0.3,
         'main_twist': 1,
         'main_collective': 10,

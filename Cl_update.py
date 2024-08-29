@@ -6,14 +6,15 @@ from Inflow import *
 
 
 class Cyclic_Integrator:
-    def __init__(self, sigma=0.08, density=1.225):
+    def __init__(self, density=1.225):
         self.V = vehicle_velocity
         self.omega = MR_omega
         self.R_root = MR_root_radius
         self.R = MR_radius
         self.b = MR_nu_blades  # no of blades
 
-        self.sigma = sigma
+        #self.sigma = (0.5 * (MR_radius-MR_root_radius)*(MR_root_chord + MR_taper))*self.b/(np.pi*MR_radius**2)
+        self.sigma = 0.0636
         self.density = density
 
         self.lamda_c = self.V / (self.omega * self.R)
@@ -47,6 +48,7 @@ class Cyclic_Integrator:
         cls = np.array(cls)
         # Use numpy to interpolate CL at the requested AOA
         cl_interp = np.interp(aoa, alphas, cls)
+        #print(cl_interp)
         return cl_interp
 
     def Cd(self, aoa, data=polar_data):  # Cd as a function of AOA
@@ -59,7 +61,7 @@ class Cyclic_Integrator:
         cd_interp = np.interp(aoa, alphas, cds)
         return cd_interp
 
-    def a(self, aoa, h=1e-2):  # dcl/d_alpha as a function of AOA
+    def a(self, aoa, h=1e-1):  # dcl/d_alpha as a function of AOA (per radian)
         cl_plus = self.Cl(aoa + h)
         cl_minus = self.Cl(aoa - h)
 
@@ -72,7 +74,7 @@ class Cyclic_Integrator:
 
     def lamda_func(self, r, F_val):
         lamda_val = np.sqrt(((self.sigma * self.a(r) / (
-                16 * F_val)) - self.lamda_c / 2) ** 2 + self.sigma * self.a(r) * self.theta(r) * self.R_root / (
+                16 * F_val)) - self.lamda_c / 2) ** 2 + self.sigma * self.a(r) * self.theta(r)*np.pi/180 * r / (
                                     8 * F_val * self.R)) - (
                             self.sigma * self.a(r) / (16 * F_val) - self.lamda_c / 2)
 
@@ -126,6 +128,7 @@ class Cyclic_Integrator:
                               for r in self.r_values)
 
         Power = self.omega * Torque
+        print(self.sigma)
 
         return Thrust, Torque, Power
 

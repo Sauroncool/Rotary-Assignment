@@ -14,7 +14,7 @@ class Airfoil:
         Cd = 0.35
         return Cl, Cd
 
-def read_polar_data(file_path = 'NACA0012.txt'):
+def read_polar_data(file_path = 'NACA0015.txt'):
     """
     Reads the polar data from a file and stores AOA, CL, and CD in a list of dictionaries.
 

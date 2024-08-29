@@ -1,19 +1,3 @@
-import numpy as np
-
-# This works don't touch-Ambuj
-class Airfoil:
-    def AOA(self, r):
-        # Assuming r is the distance from the center of rotation or something similar
-        AOA = 5 * np.pi / 180 * r  # Modify as needed based on your formula
-        return AOA
-
-    def get_coeff(self, r):
-        # Calculate AOA using the instance method AOA
-        AOA = self.AOA(r)
-        Cl = 2 * np.pi * AOA
-        Cd = 0.35
-        return Cl, Cd
-
 def read_polar_data(file_path = 'NACA0015.txt'):
     """
     Reads the polar data from a file and stores AOA, CL, and CD in a list of dictionaries.

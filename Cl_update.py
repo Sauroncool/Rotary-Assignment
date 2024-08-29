@@ -84,7 +84,7 @@ class Cyclic_Integrator:
         return lamda_val
 
     def solve_interdependent(self, r, tol=1e-8, max_iter=100):
-        lamda_val = self.lamda_c*0.5
+        lamda_val = 0.02 # Initialisation
         for i in range(max_iter):
             F_val = self.F(r, lamda_val)
             new_lamda_val = self.lamda_func(r, F_val)

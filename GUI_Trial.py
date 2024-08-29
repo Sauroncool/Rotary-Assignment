@@ -56,29 +56,33 @@ root = tk.Tk()
 root.title("Helicopter Flight Simulator")
 
 # Input fields for the main rotor I/Ps
-tk.Label(root, text="Main Rotor Radius").grid(row=0, column=0)
+tk.Label(root, text="User Inputs:", font=("Arial", 16, "bold")).grid(row=1, column=0, columnspan=2, pady=10)
+
+tk.Label(root, text="A. Main Rotor Inputs:", font=("Arial", 14, "bold")).grid(row=1, column=0, columnspan=2, pady=10)
+
+tk.Label(root, text="Main Rotor Radius").grid(row=5, column=0)
 main_radius_Entry = ttk.Entry(root)
-main_radius_Entry.grid(row=0, column=1)
+main_radius_Entry.grid(row=5, column=1)
 
-tk.Label(root, text="Main Rotor Frequency").grid(row=1, column=0)
+tk.Label(root, text="Main Rotor Frequency").grid(row=6, column=0)
 main_number_Entry = ttk.Entry(root)
-main_number_Entry.grid(row=1, column=1)
+main_number_Entry.grid(row=6, column=1)
 
-tk.Label(root, text="Main Rotor Omega").grid(row=2, column=0)
+tk.Label(root, text="Main Rotor Omega").grid(row=7, column=0)
 main_omega_Entry = ttk.Entry(root)
-main_omega_Entry.grid(row=2, column=1)
+main_omega_Entry.grid(row=7, column=1)
 
-tk.Label(root, text="Main Rotor Root Cutout").grid(row=3, column=0)
+tk.Label(root, text="Main Rotor Root Cutout").grid(row=8, column=0)
 main_rc_Entry = ttk.Entry(root)
-main_rc_Entry.grid(row=3, column=1)
+main_rc_Entry.grid(row=8, column=1)
 
-tk.Label(root, text="Main Rotor Taper").grid(row=4, column=0)
+tk.Label(root, text="Main Rotor Taper").grid(row=9, column=0)
 main_taper_Entry = ttk.Entry(root)
-main_taper_Entry.grid(row=4, column=1)
+main_taper_Entry.grid(row=9, column=1)
 
-tk.Label(root, text="Main Rotor Twist").grid(row=5, column=0)
+tk.Label(root, text="Main Rotor Twist").grid(row=10, column=0)
 main_twist_Entry = ttk.Entry(root)
-main_twist_Entry.grid(row=5, column=1)
+main_twist_Entry.grid(row=10, column=1)
 
 # Tail rotor I/P parameters
         # for my reference      
@@ -88,35 +92,37 @@ main_twist_Entry.grid(row=5, column=1)
         # 'TR_root_cutout': float(tail_root_cutout_Entry.get()),
         # 'TR_taper': float(tail_taper_Entry.get()),
         # 'TR_twist': float(tail_twist_Entry.get()),
+tk.Label(root, text="B. Tail Rotor Inputs:", font=("Arial", 14, "bold")).grid(row=14, column=0, columnspan=2, pady=10)
 
-tk.Label(root, text="Tail Rotor radius").grid(row=6, column=0)
+tk.Label(root, text="Tail Rotor radius").grid(row=18, column=0)
 tail_radius_Entry = ttk.Entry(root)
-tail_radius_Entry.grid(row=6, column=1)
+tail_radius_Entry.grid(row=18, column=1)
 
-tk.Label(root, text="Tail Rotor Frequency").grid(row=7, column=0)
+tk.Label(root, text="Tail Rotor Frequency").grid(row=19, column=0)
 tail_number_Entry = ttk.Entry(root)
-tail_number_Entry.grid(row=7, column=1)
+tail_number_Entry.grid(row=19, column=1)
 
-tk.Label(root, text="Tail Rotor omega").grid(row=8, column=0)
+tk.Label(root, text="Tail Rotor omega").grid(row=20, column=0)
 tail_omega_Entry = ttk.Entry(root)
-tail_omega_Entry.grid(row=8, column=1)
+tail_omega_Entry.grid(row=20, column=1)
 
-tk.Label(root, text="Tail Rotor Root Cutout").grid(row=9, column=0)
+tk.Label(root, text="Tail Rotor Root Cutout").grid(row=21, column=0)
 tail_root_cutout_Entry = ttk.Entry(root)
-tail_root_cutout_Entry.grid(row=9, column=1)
+tail_root_cutout_Entry.grid(row=21, column=1)
 
-tk.Label(root, text="Tail Rotor Taper").grid(row=10, column=0)
+tk.Label(root, text="Tail Rotor Taper").grid(row=22, column=0)
 tail_taper_Entry=ttk.Entry(root)
-tail_taper_Entry.grid(row=10, column=1)
+tail_taper_Entry.grid(row=22, column=1)
 
-tk.Label(root, text="Tail Rotor Twist").grid(row=11, column=0)
+tk.Label(root, text="Tail Rotor Twist").grid(row=23, column=0)
 tail_twist_Entry=ttk.Entry(root)
-tail_twist_Entry.grid(row=11, column=1)
+tail_twist_Entry.grid(row=23, column=1)
 
 
 
 
 # Input fields for the pilot controls
+tk.Label(root, text="Pilot Inputs:", font=("Arial", 16, "bold")).grid(row=1, column=0, columnspan=2, pady=10)
 tk.Label(root, text="Main Rotor Collective Pitch (Degrees)").grid(row=12, column=0)
 main_collective_Entry = ttk.Entry(root)
 main_collective_Entry.grid(row=12, column=1)

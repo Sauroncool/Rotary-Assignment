@@ -1,5 +1,6 @@
 import tkinter as tk
 from tkinter import ttk
+from PIL import Image, ImageTk
 # testing commit
 '''
 User I/Ps (to be) taken (For my reference):
@@ -54,6 +55,15 @@ def get_pilot_inputs():
 # Main window
 root = tk.Tk()
 root.title("Helicopter Flight Simulator")
+
+# For the bg image
+image = Image.open("bgimg.jfif") 
+photo = ImageTk.PhotoImage(image)
+
+canvas = tk.Canvas(root, width=photo.width(), height=photo.height())
+canvas.grid(row=0, column=0, rowspan=100, columnspan=20) 
+canvas.create_image(0, 0, image=photo, anchor='nw')
+
 
 # Input fields for the main rotor I/Ps
 tk.Label(root, text="User Inputs:", font=("Arial", 16, "bold")).grid(row=1, column=0, columnspan=2, pady=10)
@@ -142,13 +152,13 @@ tail_collective_Entry.grid(row=8, column=7)
 
 # Button to submit the inputs
 submit_button = ttk.Button(root, text="Get User Inputs", command=get_user_inputs)
-submit_button.grid(row=25, column=0)
+submit_button.grid(row=35, column=0)
 
 pilot_button = ttk.Button(root, text="Get Pilot Inputs", command=get_pilot_inputs)
-pilot_button.grid(row=25, column=1)
+pilot_button.grid(row=35, column=1)
 
 pilot_button = ttk.Button(root, text="Submit", command=get_pilot_inputs and get_user_inputs)
-pilot_button.grid(row=26, column=0)
+pilot_button.grid(row=36, column=0)
 
 # Start the GUI event loop
 root.mainloop()

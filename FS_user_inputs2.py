@@ -18,6 +18,7 @@ def get_user_inputs():
         'tail_number': 2,
         'tail_omega': 100,
         'tail_root_cutout': 0.1,
+        'tail_root_chord': 0.0508,
         'tail_taper': 0.75,
         'tail_twist': 2,
         'tail_collective': 3,

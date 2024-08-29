@@ -8,13 +8,13 @@ from Inflow import *
 class Cyclic_Integrator:
     def __init__(self, density=1.225):
         self.V = vehicle_velocity
-        self.omega = MR_omega
-        self.R_root = MR_root_radius
-        self.R = MR_radius
-        self.b = MR_nu_blades  # no of blades
+        self.omega = TR_omega
+        self.R_root = TR_root_radius
+        self.R = TR_radius
+        self.b = TR_nu_blades  # no of blades
 
-        #self.sigma = (0.5 * (MR_radius-MR_root_radius)*(MR_root_chord + MR_taper))*self.b/(np.pi*MR_radius**2)
-        self.sigma = 0.0636
+        self.sigma = (0.5 * (TR_radius-TR_root_radius)*(TR_root_chord + TR_taper*TR_root_chord))*self.b/(np.pi*TR_radius**2)
+        #self.sigma = 0.0636
         self.density = density
 
         self.lamda_c = self.V / (self.omega * self.R)
@@ -22,8 +22,8 @@ class Cyclic_Integrator:
         self.stepsize = 0.01
         self.r_values = np.arange(self.R_root, self.R, self.stepsize)
 
-    def chord(self, r, taper=MR_taper):
-        chord = MR_root_chord*(1 + ((taper-1) / (MR_radius - MR_root_radius)) * (r-MR_root_radius)) # Modify as needed based on your formula
+    def chord(self, r, taper=TR_taper):
+        chord = TR_root_chord*(1 + ((taper-1) / (TR_radius - TR_root_radius)) * (r-TR_root_radius)) # Modify as needed based on your formula
         return chord
 
     def phi(self, r):  # In degrees
@@ -32,7 +32,7 @@ class Cyclic_Integrator:
         return phi
 
     def theta(self, r):  # In degrees
-        theta = MR_cyclic_a1 + MR_cyclic_a2 + MR_collective + MR_twist * (r-MR_root_radius)/(MR_radius-MR_root_radius)
+        theta = TR_collective + TR_twist * (r-TR_root_radius)/(TR_radius-TR_root_radius)
         #print(theta)
         return theta
 
@@ -133,7 +133,7 @@ class Cyclic_Integrator:
                               for r in self.r_values)
 
         Power = self.omega * Torque
-        #print(self.sigma)
+        # print(self.sigma)
         return Thrust, Torque, Power
 
     def BEMT_Coefficient_Calculator(self, Thrust, Torque, Power):

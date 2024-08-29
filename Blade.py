@@ -20,7 +20,8 @@ MR_cyclic_a2 = user_inputs['main_cyclic_a2']  # main rotor cyclic theta - a2 inp
 TR_radius = user_inputs['tail_radius']  # tail rotor blade radius, in metres
 TR_nu_blades = user_inputs['tail_number']  # number of blades in tail rotor
 TR_omega = user_inputs['tail_omega']  # tail rotor rotation rate, in rpm
-TR_root_cutout = user_inputs['tail_root_cutout']  # tail rotor root cutout, in metres
+TR_root_radius = user_inputs['tail_root_cutout']  # tail rotor root cutout, in metres
+TR_root_chord = user_inputs['tail_root_chord'] # main rotor root chord, in metres
 TR_taper = user_inputs['tail_taper']  # tail rotor taper, defined as taper = (chord_tip - chord_root) / (R_tip - R_root)
 TR_twist = user_inputs['tail_twist']  # tail rotor twist, defined as twist = (theta_tip - theta_root) / (R_tip - R_root)
 TR_collective = user_inputs['tail_collective']  # tail rotor collective theta input by pilot

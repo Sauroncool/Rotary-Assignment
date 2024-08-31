@@ -1,10 +1,13 @@
 from mission_inputs import *
 
 Thrust = 2000 # N
-fuel_density=0.804
-def fuel_burn_rate(Thrust):
-    m_dot = 0.03*Thrust
-    return m_dot
+Qf     = 43.124             #MJ/kg
+fuel_density=0.804          #kg/L
+
+#     Not using this anymore
+#     def fuel_burn_rate(Thrust):
+#     m_dot = 0.03*Thrust
+#     return m_dot
 
 
 Power_required = 75         # P=T*omega, Pmr+Ptr, From Flight simulator

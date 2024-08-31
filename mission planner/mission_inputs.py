@@ -1,6 +1,6 @@
-tk_off_weight = 500 # kg
+m_in = 500 # kg
 tk_off_altitude = 400 # m
-initial_fuel_weight = 500 # kg
+mf0 = 500 # kg
 
 # def MS_user_inputs():
 #     user_inputs = {

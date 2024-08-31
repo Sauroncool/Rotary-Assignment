@@ -10,7 +10,7 @@ Blade_Area=0.8
 initial_omega=user_inputs.main_omega
 theta=Cyclic_Integrator().theta
 
-def Lift_Calculator(Cl, velocity):
+def Lift_Calculator(Cl, Blade_velocity):
     Lift=0.5*rho*Blade_velocity**2*Cl*Blade_Area
     return Lift
 
@@ -64,12 +64,12 @@ else:
    
 def update_weights(mf_dot):
     fuel_weight-=mf_dot*dt
-    vehicle_weight-=min_dot+mf0-mf_dot*dt       # min_dot-->inert mass of helicopter, mf_dot=fuel burn weight
+    vehicle_weight-=m_in+mf0-mf_dot*dt       # min_dot-->inert mass of helicopter, mf_dot=fuel burn weight
     if fuel_weight==0:
-        dt=(tk_off_weight-vehicle_weight)/mf_dot
+        dt=(m_in-vehicle_weight)/mf_dot
     return fuel_weight, vehicle_weight
 
-def feasibility_check():                        # accounts for insufficient engine power/ potential stall/ insufficient fuel 
+# def feasibility_check():                        # accounts for insufficient engine power/ potential stall/ insufficient fuel 
 
 
 

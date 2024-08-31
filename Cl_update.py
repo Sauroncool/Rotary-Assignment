@@ -9,7 +9,7 @@ omega = MR_omega
 R_root = MR_root_radius
 R = MR_radius
 b = MR_nu_blades  # no of blades
-density = 1.225 # Density
+density = 1.225  # Density
 
 #sigma = (0.5 * (MR_radius-MR_root_radius)*(MR_root_chord + MR_taper*MR_root_chord))*b/(np.pi*MR_radius**2)
 sigma = 0.0636
@@ -22,7 +22,7 @@ r_values = np.arange(R_root, R, stepsize)
 
 def chord(r, taper=MR_taper):
     chord = MR_root_chord * (1 + ((taper - 1) / (MR_radius - MR_root_radius)) * (
-                r - MR_root_radius))  # Modify as needed based on your formula
+            r - MR_root_radius))  # Modify as needed based on your formula
     return chord
 
 

@@ -39,7 +39,7 @@ class Cyclic_Integrator:
     def AOA(self, r):  # Angle of Attack as a function of r (in degrees)
         AOA = self.theta(r) - self.phi(r)
         return AOA
-
+    
     polar_data = read_polar_data()
 
     def Cl(self, aoa, data=polar_data):  # Cl as a function of AOA
@@ -112,6 +112,10 @@ class Cyclic_Integrator:
         v = self.lamda(r) * self.omega * self.R - self.V
         #print(v)
         return v
+    
+    def alpha_eff_max(r):
+        theta(r)
+        
 
     def Ut(self, r):
         return self.omega * r
@@ -121,6 +125,7 @@ class Cyclic_Integrator:
 
     def calculate_thrust_torque_power(self):
         self.calculate_lamda_values()
+    
 
         Thrust = self.b * sum((0.5 * self.density * (self.Ut(r) ** 2 + self.Up(r) ** 2) * self.chord(r) *
                                (self.Cl(self.AOA(r)) * np.cos(self.phi(r) * np.pi / 180) - self.Cd(

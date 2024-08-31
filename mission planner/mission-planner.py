@@ -16,10 +16,13 @@ if Power_available>Power_required:
     fuel_flow=mf_dot/fuel_density
 else:
     print("Insufficient Power")
-    
+
+   
 def update_weights(mf_dot):
     fuel_weight-=mf_dot*dt
     vehicle_weight-=min_dot+mf0-mf_dot*dt       # min_dot-->inert mass of helicopter, mf_dot=fuel burn weight
+    if fuel_weight==0:
+        dt=(tk_off_weight-vehicle_weight)/mf_dot
     return fuel_weight, vehicle_weight
 
 def feasibility_check():                        # accounts for insufficient engine power/ potential stall/ insufficient fuel 

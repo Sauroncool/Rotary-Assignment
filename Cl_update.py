@@ -1,5 +1,6 @@
 # Integrates forces and moments over a complete rotor cycle. Implements the BE Momentum Theory by definition.
 import numpy as np
+import matplotlib.pyplot as plt
 from Airfoil import *
 from Blade import *
 from Inflow import *
@@ -105,18 +106,12 @@ def solve_interdependent(r, tol=1e-8, max_iter=100):
     return F_val, new_lamda_val
 
 
-# Call the function for each R_root and store the result
-# def calculate_lamda_values():
-#     for r in r_values:
-#         F_val, lamda_val = solve_interdependent(r)
-#         lamda_values.append((r, lamda_val))  # storing lamda_val for corresponding r
-
-
 # As we have now have lamda value for each descrete r we will make a function out of this
 def lamda(r):
     for r in r_values:
         F_val, lamda_val = solve_interdependent(r)
         return lamda_val
+
 
 def v(r):
     v = lamda(r) * omega * R - V
@@ -133,7 +128,7 @@ def Up(r):
 
 
 def calculate_thrust_torque_power():
-    # calculate_lamda_values()
+    calculate_lamda_values()
 
     Thrust = b * sum((0.5 * density * (Ut(r) ** 2 + Up(r) ** 2) * chord(r) *
                       (Cl(AOA(r)) * np.cos(phi(r) * np.pi / 180) - Cd(
@@ -141,11 +136,19 @@ def calculate_thrust_torque_power():
                           phi(r) * np.pi / 180))) * stepsize
                      for r in r_values)
 
-    Torque = b * sum((r * 0.5 * density * (Ut(r) ** 2 + Up(r) ** 2) * chord(r) *
-                      (Cd(AOA(r)) * np.cos(phi(r) * np.pi / 180) + Cl(
-                          AOA(r)) * np.sin(
-                          phi(r) * np.pi / 180))) * stepsize
-                     for r in r_values)
+def torque(r):
+    return (r * 0.5 * density * (Ut(r) ** 2 + Up(r) ** 2) * chord(r) *
+            (Cd(AOA(r)) * np.cos(phi(r) * np.pi / 180) + Cl(
+                AOA(r)) * np.sin(
+                phi(r) * np.pi / 180)))
+
+
+def calculate_thrust_torque_power():
+    #calculate_lamda_values()
+
+    Thrust = b * sum(thrust(r) * stepsize for r in r_values)
+
+    Torque = b * sum(torque(r) * stepsize for r in r_values)
 
     Power = omega * Torque
     # print(sigma)
@@ -158,9 +161,15 @@ def BEMT_Coefficient_Calculator(Thrust, Torque, Power):
     Cp = Power / (density * (np.pi * R ** 2) * (omega * R) ** 3)
     return Ct, Cq, Cp
 
-    # def plot(self):
-    #     plt.plot(r_values, thrust(r_values))
-    #     plt.xlabel("r_values")
-    #     plt.ylabel("Thrust")
-    #     plt.title("Thrust vs r_values")
-    #     plt.show()
+
+def plotter():
+    plt.plot(r_values, thrust(r_values))
+    plt.xlabel("r")
+    plt.ylabel("Thrust")
+    plt.title("Thrust vs r")
+    plt.show()
+    plt.plot(r_values, omega*torque(r_values))
+    plt.xlabel("r")
+    plt.ylabel("Power")
+    plt.title("Power vs r")
+    plt.show()

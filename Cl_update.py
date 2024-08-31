@@ -9,7 +9,7 @@ omega = MR_omega
 R_root = MR_root_radius
 R = MR_radius
 b = MR_nu_blades  # no of blades
-density = 1.225
+density = 1.225 # Density
 
 #sigma = (0.5 * (MR_radius-MR_root_radius)*(MR_root_chord + MR_taper*MR_root_chord))*b/(np.pi*MR_radius**2)
 sigma = 0.0636

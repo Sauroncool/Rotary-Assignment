@@ -1,18 +1,17 @@
-from CI import Cyclic_Integrator
+from Cl_update import calculate_thrust_torque_power, BEMT_Coefficient_Calculator,plotter
 
 def main():
-    # Create an instance of the Cyclic_Integrator class
-    integrator = Cyclic_Integrator()
 
     # Call a method on the instance to perform the integration and calculate Thrust, Torque, and Power
-    Thrust, Torque, Power = integrator.calculate_thrust_torque_power()
+    Thrust, Torque, Power = calculate_thrust_torque_power()
+    plotter()
 
     # Print the results
     print(f"Thrust: {Thrust} N")
     print(f"Torque: {Torque} Nm")
     print(f"Power: {Power} W")
 
-    Ct, Cq, Cp = integrator.BEMT_Coefficient_Calculator(Thrust, Torque, Power)
+    Ct, Cq, Cp = BEMT_Coefficient_Calculator(Thrust, Torque, Power)
     # Print the results
     print(f"Ct: {2*Ct}")
     print(f"Cq: {2*Cq}")
@@ -24,4 +23,5 @@ def main():
 if __name__ == "__main__":
     main()
     #print(main())
+
 

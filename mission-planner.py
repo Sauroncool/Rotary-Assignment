@@ -65,19 +65,26 @@ Power_available = 93.43     # From the engine specifications
 SFC = 0.35                  # From engine specifications
 
 if Power_available>Power_required:
-    mf_dot=SFC*Power_required                              # The TSFC here will vary as per the engine specification
+    mf_dot=SFC*Power_required                # The TSFC here will vary as per the engine specification
     # fuel_flow=mf_dot/fuel_density
+    print(f"Fuel burn rate: {mf_dot}")
 else:
     print("Insufficient Power")
 
    
 def update_weights(mf_dot):
-    fuel_weight-=mf_dot*dt
-    vehicle_weight-=m_in+mf0-mf_dot*dt       # min_dot-->inert mass of helicopter, mf_dot=fuel burn weight
+    dt=200
+    fuel_weight=mf0-mf_dot*dt
+    
+    vehicle_weight=m_in+mf0-mf_dot*dt       # min_dot-->inert mass of helicopter, mf_dot=fuel burn weight
     if fuel_weight==0:
-        dt=(m_in-vehicle_weight)/mf_dot
+        dt=(mf0)/mf_dot
+        print(f"Time of flight: {dt}")
     return fuel_weight, vehicle_weight
 
+FW, VW =update_weights(mf_dot)
+print(f"Fuel weight: {FW} kg")
+print(f"Vehicle Weight: {VW}")
 # def feasibility_check():                        # accounts for insufficient engine power/ potential stall/ insufficient fuel 
 
 

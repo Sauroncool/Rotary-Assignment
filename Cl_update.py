@@ -106,19 +106,17 @@ def solve_interdependent(r, tol=1e-8, max_iter=100):
 
 
 # Call the function for each R_root and store the result
-def calculate_lamda_values():
-    for r in r_values:
-        F_val, lamda_val = solve_interdependent(r)
-        lamda_values.append((r, lamda_val))  # storing lamda_val for corresponding r
+# def calculate_lamda_values():
+#     for r in r_values:
+#         F_val, lamda_val = solve_interdependent(r)
+#         lamda_values.append((r, lamda_val))  # storing lamda_val for corresponding r
 
 
 # As we have now have lamda value for each descrete r we will make a function out of this
 def lamda(r):
-    for r_val, lamda_val in lamda_values:
-        if r_val == r:
-            #print(lamda_val)
-            return lamda_val
-
+    for r in r_values:
+        F_val, lamda_val = solve_interdependent(r)
+        return lamda_val
 
 def v(r):
     v = lamda(r) * omega * R - V

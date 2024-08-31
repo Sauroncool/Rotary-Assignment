@@ -133,7 +133,7 @@ def Up(r):
 
 
 def calculate_thrust_torque_power():
-    calculate_lamda_values()
+    # calculate_lamda_values()
 
     Thrust = b * sum((0.5 * density * (Ut(r) ** 2 + Up(r) ** 2) * chord(r) *
                       (Cl(AOA(r)) * np.cos(phi(r) * np.pi / 180) - Cd(

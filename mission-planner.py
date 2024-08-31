@@ -1,13 +1,14 @@
 from mission_inputs import *
-from Cl_update import AOA
+from Cl_update import AOA, calculate_thrust_torque_power
 from FS_user_inputs2 import *
 from Atmosphere import *
 from Blade import *
+from CI import *
 
 T, P, rho=Atmosphere.calc_conditions(tk_off_altitude)
 print(f"density= {rho} kg/m^3")
 # rho=1.225
-AOA_stall=10
+AOA_stall=15
 Blade_Area=0.8
 # initial_omega=MR_omega
 # main_collective=MR_collective
@@ -18,23 +19,32 @@ def Lift_Calculator(Cl, Blade_velocity):
 
 
 def MTOW_calculator(MR_omega, MR_collective, AOA_stall, MR_root_radius, MR_radius):
+    # MR_collective=0
+    MR_omega=0
     r_values = np.arange(MR_root_radius, MR_radius, 0.01)
-    for omega in np.linspace(MR_omega, MR_omega+500, 50):
-        for MR_collective in np.linspace(MR_collective, MR_collective+15, 15):
+
+
+    for omega in np.linspace(MR_omega, MR_omega+500, 100):
+        print(f"omega: {omega}")
+        MR_collective=0
+        alpha_max=0
+        for MR_collective in np.linspace(MR_collective, MR_collective+20, 40):
+            print(f"MR_collective: {MR_collective}")
             alpha=AOA(r_values)
             # print(alpha)
             alpha_max=max(alpha)
-            r_max = r_values[np.argmax(alpha)]
+            # r_max = r_values[np.argmax(alpha)]
             if alpha_max>=AOA_stall:
-                Cl=2*np.pi*alpha_max*np.pi/180
-                print(f"Cl Value= {Cl}")
-                Blade_velocity=omega*r_max
-                print(f"Blade velocity= {Blade_velocity} m/s")
-                Lift=Lift_Calculator(Cl, Blade_velocity)
+                # Cl=2*np.pi*alpha_max*np.pi/180
+                # print(f"Cl Value= {Cl}")
+                # Blade_velocity=omega*r_max
+                # print(f"Blade velocity= {Blade_velocity} m/s")
+                Lift, Torque, Power=calculate_thrust_torque_power()
+                print(Lift)
                 Weight=Lift/9.81
                 # print(f"The maximum take off Weight is {Weight} kg.")
                 break
-        break
+            
     return Weight
 
 MTOW=MTOW_calculator(MR_omega, MR_collective, AOA_stall, MR_root_radius, MR_radius)
@@ -62,7 +72,7 @@ fuel_density=0.804          #kg/L
 
 Power_required = 75         # P=T*omega, Pmr+Ptr, From Flight simulator
 Power_available = 93.43     # From the engine specifications
-SFC = 0.35                  # From engine specifications
+SFC = 0.35/3600             # From engine specifications
 
 if Power_available>Power_required:
     mf_dot=SFC*Power_required                # The TSFC here will vary as per the engine specification

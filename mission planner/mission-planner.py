@@ -6,7 +6,7 @@ from Atmosphere import *
 
 rho=Atmosphere.calc_conditions(tk_off_altitude).density
 AOA_stall=14
-Blade_Area=0.8
+Blade_Area=0.8                                                      #Blade width*Blade length
 initial_omega=user_inputs.main_omega
 theta=Cyclic_Integrator().theta
 
@@ -53,7 +53,7 @@ fuel_density=0.804          #kg/L
 
 Power_required = 75         # P=T*omega, Pmr+Ptr, From Flight simulator
 Power_available = 93.43     # From the engine specifications
-SFC = 0.35                  # From engine specifications
+SFC = 0.35/3600                  # From engine specifications
 
 if Power_available>Power_required:
     mf_dot=SFC*Power_required                              # The TSFC here will vary as per the engine specification

@@ -1,5 +1,5 @@
 m_in = 500 # kg
-tk_off_altitude = 400 # m
+tk_off_altitude = 2000 # m
 mf0 = 500 # kg
 
 # def MS_user_inputs():

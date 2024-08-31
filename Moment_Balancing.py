@@ -1,5 +1,5 @@
 from main import *
-from main_tail import *
+from main_tail import main_tail
 z_trcg = 0.5
 z_mrcg = 1.5
 x_mrcg = 0.5
@@ -16,6 +16,11 @@ Mz_cg = -T_tail * x_trcg + M_main
 Fx_cg = 0
 Fy_cg = -T_tail
 Fz_cg = T_main
+
+print(f"T_main: {T_main} ")
+print(f"M_main: {M_main} ")
+print(f"T_tail: {T_tail} ")
+print(f"M_tail: {M_tail} ")
 
 # Print the results
 print(f"Mx: {Mx_cg} ")

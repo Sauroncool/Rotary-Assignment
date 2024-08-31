@@ -7,10 +7,10 @@ def get_user_inputs():
         'main_number': 3, # 3
         'main_omega': 960*2*np.pi/60,
         'main_root_radius': 0.125, # 0.125
-        'main_root_chord': 0.508, # 0.0508
+        'main_root_chord': 0.0508, # 0.0508
         'main_taper': 1,
         'main_twist': 0,
-        'main_collective': 10,
+        'main_collective': 5,
         'main_cyclic_a1': 0,
         'main_cyclic_a2': 0,
         'tail_radius': 0.5,

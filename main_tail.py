@@ -12,12 +12,12 @@ def main_tail():
     # print(f"Torque: {Torque} Nm")
     # print(f"Power: {Power} W")
 
-    Ct, Cq, Cp = integrator.BEMT_Coefficient_Calculator(Thrust, Torque, Power)
+    #Ct, Cq, Cp = integrator.BEMT_Coefficient_Calculator(Thrust, Torque, Power)
     # Print the results
     # print(f"Ct: {Ct}")
     # print(f"Cq: {Cq}")
     # print(f"Cp: {Cp}")
     return Thrust, Torque
 
-if __name__ == "__main_tail__":
-    main_tail()
+if __name__ == "__main__":
+    print(main_tail())

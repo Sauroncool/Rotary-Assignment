@@ -2,22 +2,22 @@ from mission_inputs import *
 from CI import *
 from FS_user_inputs2 import *
 from Atmosphere import *
-
+from Blade import *
 
 T, P, rho=Atmosphere.calc_conditions(tk_off_altitude)
 AOA_stall=14
 Blade_Area=0.8
-initial_omega=100
-theta=Cyclic_Integrator().theta
+initial_omega=MR_omega
+main_collective=MR_collective
 
 def Lift_Calculator(Cl, Blade_velocity):
     Lift=0.5*rho*Blade_velocity**2*Cl*Blade_Area
     return Lift
-
-
+r_values = np.arange(MR_root_radius, MR_radius, 0.01)
 for omega in np.linspace(initial_omega, initial_omega+300, 50):
-    for theta in np.linspace(theta, theta+15, 15):
-        alpha=Cyclic_Integrator.AOA
+    for main_collective in np.linspace(main_collective, main_collective+15, 15):
+        alpha=Cyclic_Integrator.AOA(r_values)
+        print(alpha)
         if alpha==AOA_stall:
             Cl=2*np.pi*alpha
             Blade_velocity=omega*user_inputs.r

@@ -135,7 +135,7 @@ class Cyclic_Integrator:
                               for r in self.r_values)
 
         Power = self.omega * Torque
-        print(self.sigma)
+        # print(self.sigma)
         return Thrust, Torque, Power
 
     def BEMT_Coefficient_Calculator(self, Thrust, Torque, Power):

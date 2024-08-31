@@ -1,7 +1,7 @@
 from mission_inputs import *
 
 Thrust = 2000 # N
-def fuel_burn_rate:
+def fuel_burn_rate(Thrust):
     m_dot = 0.03*Thrust
     return m_dot
 

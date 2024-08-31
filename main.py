@@ -14,9 +14,9 @@ def main():
 
     Ct, Cq, Cp = integrator.BEMT_Coefficient_Calculator(Thrust, Torque, Power)
     # Print the results
-    print(f"Ct: {Ct}")
-    print(f"Cq: {Cq}")
-    print(f"Cp: {Cp}")
+    print(f"Ct: {2*Ct}")
+    print(f"Cq: {2*Cq}")
+    print(f"Cp: {2*Cp}")
 
 if __name__ == "__main__":
     main()

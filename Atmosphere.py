@@ -13,6 +13,6 @@ class Atmosphere:
         altitude = altitude
         temperature = 288.15-0.0065*altitude
         pressure = 101325*(1-0.0065*altitude/288.15)**5.2561
-        density = 101325*(1-0.0065*altitude/288.15)**4.2561
+        density = 1.225*(1-0.0065*altitude/288.15)**4.2561
         return temperature, pressure, density
         

@@ -4,10 +4,10 @@ from FS_user_inputs2 import *
 from Atmosphere import *
 
 
-rho=Atmosphere.calc_conditions(tk_off_altitude).density
+T, P, rho=Atmosphere.calc_conditions(tk_off_altitude)
 AOA_stall=14
 Blade_Area=0.8
-initial_omega=user_inputs.main_omega
+initial_omega=100
 theta=Cyclic_Integrator().theta
 
 def Lift_Calculator(Cl, Blade_velocity):
@@ -15,7 +15,7 @@ def Lift_Calculator(Cl, Blade_velocity):
     return Lift
 
 
-for omega in np.linspace(initial_omega, initial_omega+100, 50):
+for omega in np.linspace(initial_omega, initial_omega+300, 50):
     for theta in np.linspace(theta, theta+15, 15):
         alpha=Cyclic_Integrator.AOA
         if alpha==AOA_stall:
@@ -24,7 +24,6 @@ for omega in np.linspace(initial_omega, initial_omega+100, 50):
             Lift=Lift_Calculator(Cl, Blade_velocity)
             print(f"The maximum take off lift is {Lift}")
             break
-
 
 # while alpha1<AOA_stall:
 #     alpha1=Cyclic_Integrator.AOA
@@ -36,10 +35,6 @@ for omega in np.linspace(initial_omega, initial_omega+100, 50):
 #         if alpha2==AOA_stall:
 #             break
 #         twist+=1
-
-
-    
-
 
 # Thrust = 2000 # N
 Qf     = 43.124             #MJ/kg

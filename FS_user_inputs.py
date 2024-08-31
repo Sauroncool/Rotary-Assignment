@@ -10,7 +10,7 @@ def get_user_inputs():
         'main_root_chord': 0.0508, # 0.0508
         'main_taper': 1,
         'main_twist': 0,
-        'main_collective': 5,
+        'main_collective': 10,
         'main_cyclic_a1': 0,
         'main_cyclic_a2': 0,
         'tail_radius': 0.5,
@@ -20,7 +20,7 @@ def get_user_inputs():
         'tail_root_chord': 0.2,
         'tail_taper': 1,
         'tail_twist': 0,
-        'tail_collective': 10,
+        'tail_collective': 8,
     }
     return user_inputs
     # Input parameter stuff

@@ -14,9 +14,10 @@ def Lift_Calculator(Cl, Blade_velocity):
     Lift=0.5*rho*Blade_velocity**2*Cl*Blade_Area
     return Lift
 r_values = np.arange(MR_root_radius, MR_radius, 0.01)
+integrator = Cyclic_Integrator()
 for omega in np.linspace(initial_omega, initial_omega+300, 50):
     for main_collective in np.linspace(main_collective, main_collective+15, 15):
-        alpha=Cyclic_Integrator.AOA(r_values)
+        alpha=integrator.AOA(r_values)
         print(alpha)
         if alpha==AOA_stall:
             Cl=2*np.pi*alpha

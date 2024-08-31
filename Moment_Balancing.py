@@ -18,8 +18,8 @@ Fy_cg = -T_tail
 Fz_cg = T_main
 
 print(f"T_main: {T_main} ")
-print(f"M_main: {M_main} ")
 print(f"T_tail: {T_tail} ")
+print(f"M_main: {M_main} ")
 print(f"M_tail: {M_tail} ")
 
 # Print the results

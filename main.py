@@ -8,18 +8,20 @@ def main():
     Thrust, Torque, Power = integrator.calculate_thrust_torque_power()
 
     # Print the results
-    # print(f"Thrust: {Thrust} N")
-    # print(f"Torque: {Torque} Nm")
-    # print(f"Power: {Power} W")
+    print(f"Thrust: {Thrust} N")
+    print(f"Torque: {Torque} Nm")
+    print(f"Power: {Power} W")
 
-    #Ct, Cq, Cp = integrator.BEMT_Coefficient_Calculator(Thrust, Torque, Power)
+    Ct, Cq, Cp = integrator.BEMT_Coefficient_Calculator(Thrust, Torque, Power)
     # Print the results
-    # print(f"Ct: {2*Ct}")
-    # print(f"Cq: {2*Cq}")
-    # print(f"Cp: {2*Cp}")
+    print(f"Ct: {2*Ct}")
+    print(f"Cq: {2*Cq}")
+    print(f"Cp: {2*Cp}")
     return Thrust, Torque
+
+    #plotting=integrator.plot()
 
 if __name__ == "__main__":
     main()
+    #print(main())
 
-#print(main())

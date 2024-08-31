@@ -1,6 +1,6 @@
 from CI_tail import Cyclic_Integrator
 
-def main():
+def main_tail():
     # Create an instance of the Cyclic_Integrator class
     integrator = Cyclic_Integrator()
 
@@ -8,15 +8,16 @@ def main():
     Thrust, Torque, Power = integrator.calculate_thrust_torque_power()
 
     # Print the results
-    print(f"Thrust: {Thrust} N")
-    print(f"Torque: {Torque} Nm")
-    print(f"Power: {Power} W")
+    # print(f"Thrust: {Thrust} N")
+    # print(f"Torque: {Torque} Nm")
+    # print(f"Power: {Power} W")
 
-    Ct, Cq, Cp = integrator.BEMT_Coefficient_Calculator(Thrust, Torque, Power)
+    #Ct, Cq, Cp = integrator.BEMT_Coefficient_Calculator(Thrust, Torque, Power)
     # Print the results
-    print(f"Ct: {Ct}")
-    print(f"Cq: {Cq}")
-    print(f"Cp: {Cp}")
+    # print(f"Ct: {Ct}")
+    # print(f"Cq: {Cq}")
+    # print(f"Cp: {Cp}")
+    return Thrust, Torque
 
 if __name__ == "__main__":
-    main()
+    print(main_tail())

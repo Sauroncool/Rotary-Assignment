@@ -49,8 +49,8 @@ class Cyclic_Integrator:
         alphas = np.array(alphas)
         cls = np.array(cls)
         # Use numpy to interpolate CL at the requested AOA
-        cl_interp = np.interp(aoa, alphas, cls)
-        # print(cl_interp)
+        #cl_interp = np.interp(aoa, alphas, cls)
+        cl_interp = 5.75 * aoa * np.pi/180
         return cl_interp
 
     def Cd(self, aoa, data=polar_data):  # Cd as a function of AOA
@@ -60,15 +60,17 @@ class Cyclic_Integrator:
         alphas = np.array(alphas)
         cds = np.array(cds)
         # Use numpy to interpolate CD at the requested AOA
-        cd_interp = np.interp(aoa, alphas, cds)
+        #cd_interp = np.interp(aoa, alphas, cds)
+        cd_interp = 0.0113 + 1.25 * (aoa*np.pi/180)**2
         return cd_interp
 
     def a(self, aoa, h=1e-2):  # dcl/d_alpha as a function of AOA (per radian)
         cl_plus = self.Cl(aoa + h)
         cl_minus = self.Cl(aoa - h)
 
-        dcl_dalpha = ((cl_plus - cl_minus) / (2 * h)) * 180/np.pi  # aoa is in degrees thus multiplying by this factor
-        #print(dcl_dalpha)
+        #dcl_dalpha = ((cl_plus - cl_minus) / (2 * h)) * 180 / np.pi  # aoa is in degrees thus multiplying by this factor
+        dcl_dalpha = 5.75
+        # print(dcl_dalpha)
         return dcl_dalpha
 
     def F(self, r, lamda_val):

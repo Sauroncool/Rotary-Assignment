@@ -18,12 +18,10 @@ def Lift_Calculator(Cl, Blade_velocity):
     return Lift
 
 
-def MTOW_calculator(MR_omega, MR_collective, AOA_stall, MR_root_radius, MR_radius):
+def MTOW_calculator(AOA_stall, MR_root_radius, MR_radius):
     # MR_collective=0
     MR_omega=0
     r_values = np.arange(MR_root_radius, MR_radius, 0.01)
-
-
     for omega in np.linspace(MR_omega, MR_omega+500, 100):
         print(f"omega: {omega}")
         MR_collective=0
@@ -31,8 +29,9 @@ def MTOW_calculator(MR_omega, MR_collective, AOA_stall, MR_root_radius, MR_radiu
         for MR_collective in np.linspace(MR_collective, MR_collective+20, 40):
             print(f"MR_collective: {MR_collective}")
             alpha=AOA(r_values)
-            # print(alpha)
+            print(f"alpha= {alpha}")
             alpha_max=max(alpha)
+            print(f'alpha_max:{alpha_max}')
             # r_max = r_values[np.argmax(alpha)]
             if alpha_max>=AOA_stall:
                 # Cl=2*np.pi*alpha_max*np.pi/180
@@ -47,7 +46,7 @@ def MTOW_calculator(MR_omega, MR_collective, AOA_stall, MR_root_radius, MR_radiu
             
     return Weight
 
-MTOW=MTOW_calculator(MR_omega, MR_collective, AOA_stall, MR_root_radius, MR_radius)
+MTOW=MTOW_calculator(AOA_stall, MR_root_radius, MR_radius)
 print(f"The maximum take off Weight is {MTOW} kg.")
 # while alpha1<AOA_stall:
 #     alpha1=Cyclic_Integrator.AOA

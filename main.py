@@ -18,7 +18,6 @@ def main():
     print(f"Cp: {2*Cp}")
     return Thrust, Torque
 
-    #plotting=integrator.plot()
 
 if __name__ == "__main__":
     main()

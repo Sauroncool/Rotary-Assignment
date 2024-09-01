@@ -131,11 +131,10 @@ def Up(r):
     # calculate_lamda_values()
 
 def thrust(r):
-    thrust = b * sum((0.5 * density * (Ut(r, omega) ** 2 + Up(r) ** 2) * chord(r) *
+    thrust = (0.5 * density * (Ut(r, omega) ** 2 + Up(r) ** 2) * chord(r) *
                       (Cl(AOA(r, omega, MR_collective)) * np.cos(phi(r, omega) * np.pi / 180) - Cd(
                           AOA(r, omega, MR_collective)) * np.sin(
-                          phi(r, omega) * np.pi / 180))) * stepsize
-                     for r in r_values)
+                          phi(r, omega) * np.pi / 180)))
     return thrust
 
 def torque(r):

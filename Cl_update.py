@@ -105,12 +105,16 @@ def solve_interdependent(r, tol=1e-8, max_iter=100):
         lamda_val = new_lamda_val
     return F_val, new_lamda_val
 
+def calculate_lamda_values():
+    for r in r_values:
+        F_val, lamda_val = solve_interdependent(r)
+        lamda_values.append((r, lamda_val))  # storing lamda_val for corresponding r
 
 # As we have now have lamda value for each descrete r we will make a function out of this
 def lamda(r):
-    for r in r_values:
-        F_val, lamda_val = solve_interdependent(r)
-        return lamda_val
+    for r_val, lamda_val in lamda_values:
+        if r_val == r:
+            return lamda_val
 
 
 def v(r, omega):
@@ -144,15 +148,21 @@ def torque(r):
                 phi(r, omega) * np.pi / 180)))
 
 
+Thrust_val = []
+Torque_val = []
 def calculate_thrust_torque_power():
-    # calculate_lamda_values()
+    calculate_lamda_values()
+
+    for r in r_values:
+        Thrust_val.append(thrust(r))
+        Torque_val.append(torque(r))
 
     Thrust = b * sum(thrust(r) * stepsize for r in r_values)
 
     Torque = b * sum(torque(r) * stepsize for r in r_values)
 
     Power = omega * Torque
-    # print(sigma)
+    #print()
     return Thrust, Torque, Power
 
 
@@ -164,12 +174,12 @@ def BEMT_Coefficient_Calculator(Thrust, Torque, Power):
 
 
 def plotter():
-    plt.plot(r_values, thrust(r_values))
+    plt.plot(r_values, Thrust_val)
     plt.xlabel("r")
     plt.ylabel("Thrust")
     plt.title("Thrust vs r")
     plt.show()
-    plt.plot(r_values, omega*torque(r_values))
+    plt.plot(r_values, np.array(Torque_val) * omega)
     plt.xlabel("r")
     plt.ylabel("Power")
     plt.title("Power vs r")

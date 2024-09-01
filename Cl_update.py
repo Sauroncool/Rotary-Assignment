@@ -27,20 +27,20 @@ def chord(r, taper=MR_taper):
     return chord
 
 
-def phi(r):  # In degrees
-    phi = np.arctan((V + v(r)) / (omega * r)) * 180 / np.pi
+def phi(r, omega):  # In degrees
+    phi = np.arctan((V + v(r, omega)) / (omega * r)) * 180 / np.pi
     #print(phi)
     return phi
 
 
-def theta(r):  # In degrees
+def theta(r, MR_collective):  # In degrees
     theta = MR_cyclic_a1 + MR_cyclic_a2 + MR_collective + MR_twist * (r - MR_root_radius) / (MR_radius - MR_root_radius)
     #print(theta)
     return theta
 
 
-def AOA(r):  # Angle of Attack as a function of r (in degrees)
-    AOA = theta(r) - phi(r)
+def AOA(r, omega, MR_collective):  # Angle of Attack as a function of r (in degrees)
+    AOA = theta(r, MR_collective) - phi(r, omega)
     return AOA
 
 
@@ -88,7 +88,7 @@ def F(r, lamda_val):
 
 def lamda_func(r, F_val):
     lamda_val = np.sqrt(((sigma * a(r) / (
-            16 * F_val)) - lamda_c / 2) ** 2 + sigma * a(r) * theta(r) * np.pi / 180 * r / (
+            16 * F_val)) - lamda_c / 2) ** 2 + sigma * a(r) * theta(r, MR_collective) * np.pi / 180 * r / (
                                 8 * F_val * R)) - (
                         sigma * a(r) / (16 * F_val) - lamda_c / 2)
 
@@ -113,40 +113,42 @@ def lamda(r):
         return lamda_val
 
 
-def v(r):
+def v(r, omega):
     v = lamda(r) * omega * R - V
     #print(v)
     return v
 
 
-def Ut(r):
+def Ut(r, omega):
     return omega * r
 
 
 def Up(r):
-    return V + v(r)
+    return V + v(r, omega)
 
 
-def calculate_thrust_torque_power():
+# def calculate_thrust_torque_power():
     # calculate_lamda_values()
 
-    Thrust = b * sum((0.5 * density * (Ut(r) ** 2 + Up(r) ** 2) * chord(r) *
-                      (Cl(AOA(r)) * np.cos(phi(r) * np.pi / 180) - Cd(
-                          AOA(r)) * np.sin(
-                          phi(r) * np.pi / 180))) * stepsize
+def thrust(r):
+    thrust = b * sum((0.5 * density * (Ut(r, omega) ** 2 + Up(r) ** 2) * chord(r) *
+                      (Cl(AOA(r, omega, MR_collective)) * np.cos(phi(r, omega) * np.pi / 180) - Cd(
+                          AOA(r, omega, MR_collective)) * np.sin(
+                          phi(r, omega) * np.pi / 180))) * stepsize
                      for r in r_values)
+    return thrust
 
 def torque(r):
-    return (r * 0.5 * density * (Ut(r) ** 2 + Up(r) ** 2) * chord(r) *
-            (Cd(AOA(r)) * np.cos(phi(r) * np.pi / 180) + Cl(
-                AOA(r)) * np.sin(
-                phi(r) * np.pi / 180)))
+    return (r * 0.5 * density * (Ut(r, omega) ** 2 + Up(r) ** 2) * chord(r) *
+            (Cd(AOA(r, omega, MR_collective)) * np.cos(phi(r, omega) * np.pi / 180) + Cl(
+                AOA(r, omega, MR_collective)) * np.sin(
+                phi(r, omega) * np.pi / 180)))
 
 
 def calculate_thrust_torque_power():
     # calculate_lamda_values()
 
-    Thrust = b * sum(Thrust(r) * stepsize for r in r_values)
+    Thrust = b * sum(thrust(r) * stepsize for r in r_values)
 
     Torque = b * sum(torque(r) * stepsize for r in r_values)
 

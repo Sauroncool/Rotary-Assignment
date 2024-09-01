@@ -21,14 +21,15 @@ def Lift_Calculator(Cl, Blade_velocity):
 def MTOW_calculator(AOA_stall, MR_root_radius, MR_radius):
     # MR_collective=0
     MR_omega=0
-    r_values = np.arange(MR_root_radius, MR_radius, 0.01)
+    stepsize=0.01
+    r_values = np.arange(MR_root_radius, MR_radius, stepsize)
     for omega in np.linspace(MR_omega, MR_omega+500, 100):
         print(f"omega: {omega}")
         MR_collective=0
         alpha_max=0
-        for MR_collective in np.linspace(MR_collective, MR_collective+20, 40):
+        for MR_collective in np.linspace(MR_collective, MR_collective+20, 41):
             print(f"MR_collective: {MR_collective}")
-            alpha=AOA(r_values)
+            alpha=AOA(r_values, omega, MR_collective)
             print(f"alpha= {alpha}")
             alpha_max=max(alpha)
             print(f'alpha_max:{alpha_max}')
@@ -42,9 +43,9 @@ def MTOW_calculator(AOA_stall, MR_root_radius, MR_radius):
                 print(Lift)
                 Weight=Lift/9.81
                 # print(f"The maximum take off Weight is {Weight} kg.")
-                break
+                return Weight
             
-    return Weight
+    return None
 
 MTOW=MTOW_calculator(AOA_stall, MR_root_radius, MR_radius)
 print(f"The maximum take off Weight is {MTOW} kg.")

@@ -113,8 +113,8 @@ class Cyclic_Integrator:
         #print(v)
         return v
     
-    def alpha_eff_max(r):
-        theta(r)
+    # def alpha_eff_max(r):
+    #     theta(r)
         
 
     def Ut(self, r):

@@ -1,5 +1,5 @@
 #Fetches input from the user input file and specifies blade geometry and parameters as per the instructions.
-from FS_user_inputs2 import get_user_inputs
+from FS_user_inputs3 import get_user_inputs
 #from FS_user_inputs2 import get_user_inputs
 
 #MR_cyclic_pitch = theta      #Defining theta here to import in the II and CI for later.

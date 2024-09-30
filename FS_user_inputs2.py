@@ -11,7 +11,7 @@ def get_user_inputs():
         'main_root_chord': 0.0508,
         'main_taper': 1,
         'main_twist': 0,
-        'main_collective': 6,
+        'main_collective': 23,
         'main_cyclic_a1': 0,
         'main_cyclic_a2': 0,
         'tail_radius': 1,

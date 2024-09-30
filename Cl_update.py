@@ -12,8 +12,8 @@ R = MR_radius
 b = MR_nu_blades  # no of blades
 density = 1.225  # Density
 
-#sigma = (0.5 * (MR_radius-MR_root_radius)*(MR_root_chord + MR_taper*MR_root_chord))*b/(np.pi*MR_radius**2)
-sigma = 0.0636
+sigma = (0.5 * (MR_radius-MR_root_radius)*(MR_root_chord + MR_taper*MR_root_chord))*b/(np.pi*MR_radius**2)
+#sigma = 0.0636
 
 lamda_c = V / (omega * R)
 lamda_values = []
@@ -54,8 +54,8 @@ def Cl(aoa, data=polar_data):  # Cl as a function of AOA
     alphas = np.array(alphas)
     cls = np.array(cls)
     # Use numpy to interpolate CL at the requested AOA
-    #cl_interp = np.interp(aoa, alphas, cls)
-    cl_interp = 5.75 * aoa * np.pi / 180
+    cl_interp = np.interp(aoa, alphas, cls)
+    #cl_interp = 5.75 * aoa * np.pi / 180
     return cl_interp
 
 
@@ -66,8 +66,8 @@ def Cd(aoa, data=polar_data):  # Cd as a function of AOA
     alphas = np.array(alphas)
     cds = np.array(cds)
     # Use numpy to interpolate CD at the requested AOA
-    #cd_interp = np.interp(aoa, alphas, cds)
-    cd_interp = 0.0113 + 1.25 * (aoa * np.pi / 180) ** 2
+    cd_interp = np.interp(aoa, alphas, cds)
+    #cd_interp = 0.0113 + 1.25 * (aoa * np.pi / 180) ** 2
     return cd_interp
 
 
@@ -75,8 +75,8 @@ def a(aoa, h=1e-2):  # dcl/d_alpha as a function of AOA (per radian)
     cl_plus = Cl(aoa + h)
     cl_minus = Cl(aoa - h)
 
-    #dcl_dalpha = ((cl_plus - cl_minus) / (2 * h)) * 180/np.pi  # aoa is in degrees thus multiplying by this factor
-    dcl_dalpha = 5.75
+    dcl_dalpha = ((cl_plus - cl_minus) / (2 * h)) * 180/np.pi  # aoa is in degrees thus multiplying by this factor
+    #dcl_dalpha = 5.75
     #print(dcl_dalpha)
     return dcl_dalpha
 
@@ -147,13 +147,14 @@ def torque(r):
                 AOA(r, omega, MR_collective)) * np.sin(
                 phi(r, omega) * np.pi / 180)))
 
-
+AOA_val = []
 Thrust_val = []
 Torque_val = []
 def calculate_thrust_torque_power():
     calculate_lamda_values()
 
     for r in r_values:
+        AOA_val.append(AOA(r,omega,MR_collective))
         Thrust_val.append(thrust(r))
         Torque_val.append(torque(r))
 
@@ -162,7 +163,7 @@ def calculate_thrust_torque_power():
     Torque = b * sum(torque(r) * stepsize for r in r_values)
 
     Power = omega * Torque
-    #print()
+    #print(AOA_val)
     return Thrust, Torque, Power
 
 
